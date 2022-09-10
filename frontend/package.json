@@ -1,0 +1,37 @@
+{
+  "name": "nextjs-strapi-starter-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.4",
+    "@nextui-org/react": "^1.0.0-beta.10",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.10.0",
+    "axios": "^0.21.0",
+    "classnames": "^2.2.6",
+    "fontfaceobserver": "^2.1.0",
+    "graphql": "^15.3.0",
+    "isomorphic-fetch": "^3.0.0",
+    "js-cookie": "^2.2.1",
+    "next": "9.5.5",
+    "next-seo": "^4.7.3",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "react-google-recaptcha": "^2.1.0",
+    "react-hook-form": "^7.1.1",
+    "vercel": "^19.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-typescript-tsc": "^2.0.1",
+    "next-transpile-modules": "3.3.0"
+  },
+  "description": "Basic next js strapi grahql apollo experiment",
+  "main": "index.js",
+  "author": "jarrod@jarrodmedrano.com",
+  "license": "MIT"
+}
