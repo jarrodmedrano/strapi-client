@@ -5,7 +5,10 @@ import React from 'react';
 const Index = () => {
   return (
     <Container alignContent="center">
-      <NextSeo title="/ Click" description="Marshmallows are good for you" />
+      <NextSeo
+        title="Marshmallow Restaurant"
+        description="Marshmallows are good for you"
+      />
       <Grid.Container gap={2} justify="center">
         <Grid xs={12} md={6}>
           <Row justify="center" align="center">
