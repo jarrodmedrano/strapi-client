@@ -1,4 +1,5 @@
 export default ({ env }) => ({
+  defaultConnection: 'default',
   connection: {
     client: 'postgres',
     connection: {
@@ -6,8 +7,9 @@ export default ({ env }) => ({
       port: env.int('DATABASE_PORT', 5432),
       database: env('DATABASE_NAME', 'postgres'),
       user: env('DATABASE_USERNAME', 'jarrodmedrano'),
-      password: env('DATABASE_PASSWORD', ''),
+      password: env('DATABASE_PASSWORD', 'postgres'),
       ssl: env.bool('DATABASE_SSL', false),
+      schema: env('DATABASE_SCHEMA', 'public'),
     },
   },
 });

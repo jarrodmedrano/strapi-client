@@ -44,10 +44,6 @@
   "strapi": {
     "uuid": "56daadf9-3952-4547-9764-9ccdd8212144"
   },
-  "engines": {
-    "node": ">=14.19.1 <=16.x.x",
-    "npm": ">=6.0.0"
-  },
   "description": "Basic next js strapi grahql apollo experiment",
   "main": "index.js",
   "author": "jarrod@jarrodmedrano.com",

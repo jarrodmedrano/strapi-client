@@ -17,14 +17,10 @@
     "pg": "8.6.0"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Jarrod Medrano"
   },
   "strapi": {
     "uuid": "56daadf9-3952-4547-9764-9ccdd8212144"
-  },
-  "engines": {
-    "node": ">=14.19.1 <=16.x.x",
-    "npm": ">=6.0.0"
   },
   "license": "MIT"
 }
