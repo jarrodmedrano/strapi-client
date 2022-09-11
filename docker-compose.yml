@@ -1,0 +1,50 @@
+version: '3'
+services:
+  client:
+    # Step 5.1 - Point build step to the client directory
+    build: 'frontend'
+    ports:
+      # Step 5.2 - Add the port that the client application runs on - (port:port).
+      - '3000:3000'
+    depends_on:
+      - backend
+      - strapi
+      - postgres
+  backend:
+    # Step 5.3 - Point build step to the server directory
+
+    build: 'backend'
+    ports:
+      # Step 5.4 - Add the port that the server application runs on - (port:port).
+      - '8080:8080'
+    depends_on:
+      - strapi
+      - postgres
+  strapi:
+    image: strapi/strapi
+    container_name: strapirestaurant
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_NAME}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - ./app:/srv/app
+    ports:
+      - '1337:1337'
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./data:/var/lib/postgresql/data

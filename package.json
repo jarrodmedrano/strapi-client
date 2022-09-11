@@ -7,7 +7,11 @@
     "server:dev": "npm run develop --prefix backend",
     "client": "npm run start --prefix frontend",
     "client:dev": "npm run dev --prefix frontend",
-    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\""
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",
@@ -27,11 +31,22 @@
     "react-dom": "16.14.0",
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.1.1",
-    "vercel": "^19.2.0"
+    "vercel": "^19.2.0",
+    "@strapi/strapi": "4.3.8",
+    "@strapi/plugin-users-permissions": "4.3.8",
+    "@strapi/plugin-i18n": "4.3.8",
+    "pg": "8.6.0"
   },
   "devDependencies": {
     "@parcel/transformer-typescript-tsc": "^2.0.1",
     "next-transpile-modules": "3.3.0"
+  },
+  "strapi": {
+    "uuid": "56daadf9-3952-4547-9764-9ccdd8212144"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=16.x.x",
+    "npm": ">=6.0.0"
   },
   "description": "Basic next js strapi grahql apollo experiment",
   "main": "index.js",
