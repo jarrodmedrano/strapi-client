@@ -27,9 +27,9 @@ COPY favicon.ico .
 COPY public public/
 COPY src src/
 # COPY public/index.html public/
-COPY extensions/ extensions/
-COPY exports/ exports/
-COPY api/ api/
+# COPY extensions/ extensions/
+# COPY exports/ exports/
+# COPY api/ api/
 COPY config/ config/
 
 # Generate a folder called 'build' which is the folder where files will be stored that can be directly used by others without the need to compile or minify the source code that is being reused.
