@@ -30,6 +30,7 @@ COPY src src/
 # COPY extensions/ extensions/
 # COPY exports/ exports/
 # COPY api/ api/
+COPY ./tsconfig.json ./tsconfig.json 
 COPY config/ config/
 
 # Generate a folder called 'build' which is the folder where files will be stored that can be directly used by others without the need to compile or minify the source code that is being reused.
@@ -40,4 +41,4 @@ EXPOSE 1337
 
 # We need to define the command to launch when we are going to run the image. We can use the keyword 'CMD' to do that.
 # The following command will execute "yarn start".
-CMD ["yarn", "start"]
+CMD ["yarn", "develop"]

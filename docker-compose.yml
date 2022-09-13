@@ -7,17 +7,17 @@ services:
       # Step 5.2 - Add the port that the client application runs on - (port:port).
       - '3000:3000'
     depends_on:
-      - server
+      - strapi
       - postgres
-  server:
-    # Step 5.3 - Point build step to the server directory
+  # server:
+  #   # Step 5.3 - Point build step to the server directory
 
-    build: 'backend'
-    ports:
-      # Step 5.4 - Add the port that the server application runs on - (port:port).
-      - '1337:1337'
-    depends_on:
-      - postgres
+  #   build: 'backend'
+  #   ports:
+  #     # Step 5.4 - Add the port that the server application runs on - (port:port).
+  #     - '1337:1337'
+  #   depends_on:
+  #     - postgres
 
   postgres:
     image: postgres
@@ -30,8 +30,8 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
   strapi:
-    build: ./backend
-    container_name: strapirestaurant
+    build: 'backend'
+    container_name: strapirestaurantz
     restart: unless-stopped
     env_file: .env
     environment:
@@ -39,18 +39,16 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       # == MongoDB Atlas configuration ==
       DATABASE_CLIENT: postgres
-      DATABASE_HOST: ${DATABASE_HOST:-127.0.0.1}
-      DATABASE_SRV: ${DATABASE_SRV:-true}
-      DATABASE_PORT: ${DATABASE_PORT:-5432}
-      DATABASE_NAME: ${DATABASE_NAME:-posgres}
-      DATABASE_USERNAME: ${DATABASE_USERNAME:-jarrodmedrano}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_SRV: ${DATABASE_SRV}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_SSL: ${DATABASE_SSL:-false}
       # AUTHENTICATION_DATABASE: admin
       CORS_ORIGIN: ${CORS_ORIGIN}
     ports:
       - '${PORT:-1337}:${PORT:-1337}'
-    volumes:
-      - ./app:/srv/app
     depends_on:
       - postgres
