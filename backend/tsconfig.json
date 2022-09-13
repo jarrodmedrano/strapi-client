@@ -6,12 +6,8 @@
   },
   "include": [
     "./",
-    "config/**/*.ts", // ADD
-    "config/**/*.js", // ADD if you have JS files
-    "src/**/*.json",
-    "src/**/*.ts", // ADD
-    "src/**/*.tsx", // ADD
-    "src/**/*.js", // ADD if you have JS files
+    "./**/*.ts",
+    "./**/*.js",
     "src/**/*.json"
   ],
   "exclude": [
