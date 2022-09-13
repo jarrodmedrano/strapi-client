@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Goog() {
+export const Goog = () => {
   return (
     <>
       <script
@@ -14,4 +14,4 @@ export function Goog() {
       ></script>
     </>
   );
-}
+};

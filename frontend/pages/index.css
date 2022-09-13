@@ -1,0 +1,22 @@
+@media (max-width: 200px) {
+    .bgImage {
+      background-image: url("/hero_cn8iio_ar_1_1,c_fill,g_auto__c_scale,w_200.jpg");
+    }
+}
+
+@media (max-width: 600px) {
+    .bgImage {
+      background-image: url("/hero_cn8iio_ar_16_9,c_fill,g_auto__c_scale,w_596.jpg");
+    }
+}
+
+.bgImage {
+    background-image: url("/hero.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 80%;
+}
+
+.nextui-navbar-container {
+    max-width: 100%;
+}

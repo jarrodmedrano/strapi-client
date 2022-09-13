@@ -1,36 +1,43 @@
-import { NextUIProvider } from '@nextui-org/react';
-import React from 'react';
+import { createTheme, NextUIProvider } from '@nextui-org/react';
+import React, { useContext, useState } from 'react';
+import { Header } from '../components/Header';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import './index.css';
+import AppContext, { AppContextProvider } from '../contexts/context';
+
+const lightTheme = createTheme({
+  type: 'light',
+});
+
+const darkTheme = createTheme({
+  type: 'dark',
+  theme: {
+    colors: {
+      heroColor: '#ff4ecd',
+      link: '#ff4ecd',
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <NextUIProvider>
-        <div
-          className="bgImage"
-          style={{
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            flexDirection: 'column',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              width: '100%',
-            }}
-          >
+    <AppContextProvider>
+      <NextThemesProvider
+        defaultTheme="system"
+        attribute="class"
+        value={{
+          light: lightTheme.className,
+          dark: darkTheme.className,
+        }}
+      >
+        <NextUIProvider theme={darkTheme}>
+          <div>
+            <Header />
             <Component {...pageProps} />
           </div>
-        </div>
-      </NextUIProvider>
-    </>
+        </NextUIProvider>
+      </NextThemesProvider>
+    </AppContextProvider>
   );
 }
 
