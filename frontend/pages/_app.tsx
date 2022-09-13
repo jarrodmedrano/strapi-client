@@ -4,6 +4,12 @@ import { Header } from '../components/Header';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import './index.css';
 import AppContext, { AppContextProvider } from '../contexts/context';
+import {
+  ApolloProvider,
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 
 const lightTheme = createTheme({
   type: 'light',
@@ -20,6 +26,13 @@ const darkTheme = createTheme({
 });
 
 function MyApp({ Component, pageProps }) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+  console.log(`URL: ${API_URL}`);
+  const [query, setQuery] = useState('');
+  const link = new HttpLink({ uri: `${API_URL}/graphql` });
+  const cache = new InMemoryCache();
+  const client = new ApolloClient({ link, cache });
+
   return (
     <AppContextProvider>
       <NextThemesProvider
@@ -31,10 +44,12 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         <NextUIProvider theme={darkTheme}>
-          <div>
-            <Header />
-            <Component {...pageProps} />
-          </div>
+          <ApolloProvider client={client}>
+            <div>
+              <Header />
+              <Component {...pageProps} />
+            </div>
+          </ApolloProvider>
         </NextUIProvider>
       </NextThemesProvider>
     </AppContextProvider>

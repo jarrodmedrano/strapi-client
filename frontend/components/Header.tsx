@@ -8,9 +8,13 @@ import {
   NavbarProps,
 } from '@nextui-org/react';
 import { StyledComponent } from '@stitches/react/types/styled-component';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import AppContext from '../contexts/context';
 
 export const Header = () => {
+  const { user } = useContext(AppContext);
+  console.log('user', user);
+
   const [variant, setVariant] = useState<
     'static' | 'sticky' | 'floating' | undefined
   >('static');
@@ -33,9 +37,16 @@ export const Header = () => {
         <Navbar.Link href="#">Company</Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
-        <Navbar.Link color="inherit" href="#">
-          Login
-        </Navbar.Link>
+        {user ? (
+          <Navbar.Link color="inherit" href="#">
+            Logout
+          </Navbar.Link>
+        ) : (
+          <Navbar.Link color="inherit" href="#">
+            Login
+          </Navbar.Link>
+        )}
+
         <Navbar.Item>
           <Button auto flat as={Link} href="#">
             Sign Up
