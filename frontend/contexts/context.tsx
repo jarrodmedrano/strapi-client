@@ -9,9 +9,9 @@ export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cart, setCart] = useState({ items: [], total: 0 });
   const [user, setUser] = useState(false);
+  const { items, total } = cart;
 
   const addItem = (item) => {
-    const { items, total } = cart;
     const foundItem = items.find((i) => i.id === item.id);
 
     if (!foundItem) {
@@ -22,11 +22,29 @@ export const useAppContext = () => {
         total: total + item.price,
       };
       setCart(newCart);
-      console.log(`Total items: ${JSON.stringify(newCart)}`);
     }
   };
 
-  const removeItem = () => {};
+  const removeItem = (item) => {
+    const foundItem = items.find((i) => i.id === item.id);
+    const filteredCart = items.filter((item) => item.id !== foundItem.id);
+    const newTotal = total - item.price;
+
+    if (foundItem.quantity > 1) {
+      const updatedItem = { ...foundItem };
+      updatedItem.quantity = updatedItem.quantity - 1;
+
+      setCart({
+        items: [...filteredCart, updatedItem],
+        total: newTotal,
+      });
+    } else {
+      setCart({
+        items: [...filteredCart],
+        total: newTotal,
+      });
+    }
+  };
 
   return {
     isAuthenticated,
@@ -48,7 +66,7 @@ interface AppContextInterface {
   };
   setCart: React.Dispatch<React.SetStateAction<any>>;
   addItem: (item: any) => void;
-  removeItem: () => void;
+  removeItem: (item: any) => void;
   user: boolean;
   setUser: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
