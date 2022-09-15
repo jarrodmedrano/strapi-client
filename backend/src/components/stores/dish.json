@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_stores_dishes",
+  "info": {
+    "displayName": "Dish",
+    "icon": "mortar-pestle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Description": {
+      "type": "richtext"
+    },
+    "Thumbnail": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "Price": {
+      "type": "decimal",
+      "default": 0,
+      "required": true
+    }
+  }
+}
