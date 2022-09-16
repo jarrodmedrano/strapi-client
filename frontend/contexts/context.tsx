@@ -8,7 +8,7 @@ import { useState } from 'react';
 export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cart, setCart] = useState({ items: [], total: 0 });
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState();
   const { items, total } = cart;
 
   const addItem = (item) => {
@@ -73,7 +73,7 @@ interface AppContextInterface {
   addItem: (item: any) => void;
   removeItem: (item: any) => void;
   user: boolean;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
