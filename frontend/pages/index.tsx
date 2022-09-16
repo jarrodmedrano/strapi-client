@@ -1,7 +1,16 @@
 import { NextSeo } from 'next-seo';
-import { Grid, Container, Card, Row, Text, Image } from '@nextui-org/react';
+import {
+  Grid,
+  Container,
+  Card,
+  Row,
+  Text,
+  Image,
+  Link,
+} from '@nextui-org/react';
 import React from 'react';
 import StoreList from '../components/StoreList';
+import { Header } from '../components/Header';
 
 const Index = () => {
   return (
@@ -17,16 +26,18 @@ const Index = () => {
               <Row justify="center" align="center">
                 <div className="main">
                   <div className="header">
-                    <Text
-                      h1
-                      size={60}
-                      css={{
-                        textGradient: '45deg, $pink600  -20%, deeppink 50%',
-                      }}
-                      weight="bold"
-                    >
-                      MarshMallow Land
-                    </Text>
+                    <Link href="/">
+                      <Text
+                        h1
+                        size={60}
+                        css={{
+                          textGradient: '45deg, $pink600  -20%, deeppink 50%',
+                        }}
+                        weight="bold"
+                      >
+                        MarshMallow Land
+                      </Text>
+                    </Link>
                   </div>
                   <h3>A marshmallow restaurant</h3>
                 </div>

@@ -58,6 +58,11 @@ export const useAppContext = () => {
   };
 };
 
+interface User {
+  id: number;
+  username: string;
+}
+
 interface AppContextInterface {
   isAuthenticated: boolean;
   cart: {
@@ -68,7 +73,7 @@ interface AppContextInterface {
   addItem: (item: any) => void;
   removeItem: (item: any) => void;
   user: boolean;
-  setUser: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

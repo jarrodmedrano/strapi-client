@@ -10,8 +10,11 @@ import {
 import { StyledComponent } from '@stitches/react/types/styled-component';
 import { useContext, useState } from 'react';
 import AppContext from '../contexts/context';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export const Header = () => {
+  const { data: session } = useSession();
+
   const { user } = useContext(AppContext);
   console.log('user', user);
 
@@ -25,33 +28,28 @@ export const Header = () => {
     <Navbar variant={variant}>
       <Navbar.Brand>
         <Text b color="inherit" hideIn="xs">
-          MarshMallow Land
+          <Link href="/">MarshMallow Land</Link>
         </Text>
       </Navbar.Brand>
-      <Navbar.Content hideIn="xs">
-        <Navbar.Link href="#">Features</Navbar.Link>
-        <Navbar.Link isActive href="#">
-          Customers
-        </Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Company</Navbar.Link>
-      </Navbar.Content>
+      <Navbar.Content hideIn="xs"></Navbar.Content>
       <Navbar.Content>
         {user ? (
           <Navbar.Link color="inherit" href="#">
             Logout
           </Navbar.Link>
         ) : (
-          <Navbar.Link color="inherit" href="#">
+          <Navbar.Link color="inherit" href="/login">
             Login
           </Navbar.Link>
         )}
 
-        <Navbar.Item>
-          <Button auto flat as={Link} href="#">
-            Sign Up
-          </Button>
-        </Navbar.Item>
+        {!user && (
+          <Navbar.Item>
+            <Button auto flat as={Link} href="/register">
+              Sign Up
+            </Button>
+          </Navbar.Item>
+        )}
       </Navbar.Content>
     </Navbar>
   );

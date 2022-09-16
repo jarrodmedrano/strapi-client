@@ -4,6 +4,8 @@ import { Header } from '../components/Header';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import './index.css';
 import AppContext, { AppContextProvider } from '../contexts/context';
+import { SessionProvider } from 'next-auth/react';
+
 import {
   ApolloProvider,
   ApolloClient,
@@ -25,7 +27,7 @@ const darkTheme = createTheme({
   },
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
   console.log(`URL: ${API_URL}`);
   const [query, setQuery] = useState('');
@@ -34,25 +36,27 @@ function MyApp({ Component, pageProps }) {
   const client = new ApolloClient({ link, cache });
 
   return (
-    <AppContextProvider>
-      <NextThemesProvider
-        defaultTheme="system"
-        attribute="class"
-        value={{
-          light: lightTheme.className,
-          dark: darkTheme.className,
-        }}
-      >
-        <NextUIProvider theme={darkTheme}>
-          <ApolloProvider client={client}>
-            <div>
-              <Header />
-              <Component {...pageProps} />
-            </div>
-          </ApolloProvider>
-        </NextUIProvider>
-      </NextThemesProvider>
-    </AppContextProvider>
+    <SessionProvider session={session}>
+      <AppContextProvider>
+        <NextThemesProvider
+          defaultTheme="system"
+          attribute="class"
+          value={{
+            light: lightTheme.className,
+            dark: darkTheme.className,
+          }}
+        >
+          <NextUIProvider theme={darkTheme}>
+            <ApolloProvider client={client}>
+              <div>
+                <Header />
+                <Component {...pageProps} />
+              </div>
+            </ApolloProvider>
+          </NextUIProvider>
+        </NextThemesProvider>
+      </AppContextProvider>
+    </SessionProvider>
   );
 }
 
