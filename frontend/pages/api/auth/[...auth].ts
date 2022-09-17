@@ -11,16 +11,16 @@ interface Response {
   jwt: string;
   user: {
     id: number;
-    username: string;
+    identifier: string;
   };
 }
 
 export const registerUser: (
-  username: string,
+  identifier: string,
   email: string,
   password: string
 ) => Promise<Response> = async (
-  username: string,
+  identifier: string,
   email: string,
   password: string
 ) => {
@@ -29,7 +29,7 @@ export const registerUser: (
   }
   try {
     const { data } = await axios.post(`${API_URL}/auth/local/register`, {
-      username,
+      identifier,
       email,
       password,
     });
@@ -40,16 +40,16 @@ export const registerUser: (
 };
 
 export const login: (
-  username: string,
+  identifier: string,
   password: string
-) => Promise<Response> = async (username: string, password: string) => {
+) => Promise<Response> = async (identifier: string, password: string) => {
   if (typeof window === 'undefined') {
     return;
   }
 
   try {
     const { data } = await axios.post(`${API_URL}/auth/local`, {
-      username,
+      identifier,
       password,
     });
     Cookie.set('token', data.jwt);

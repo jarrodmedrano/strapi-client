@@ -1,19 +1,19 @@
 {
   "collectionName": "components_stores_restaurants",
   "info": {
-    "displayName": "Restaurant",
+    "displayName": "restaurant",
     "icon": "store",
     "description": ""
   },
   "options": {},
   "attributes": {
-    "Description": {
+    "description": {
       "type": "richtext"
     },
-    "Name": {
+    "name": {
       "type": "string"
     },
-    "Thumbnail": {
+    "thumbnail": {
       "type": "media",
       "multiple": false,
       "required": false,

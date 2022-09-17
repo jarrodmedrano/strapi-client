@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.prod.json",
+    "include": ["**/*.d.ts", "frontend/**/*.ts", "frontend/**/*.tsx"],
+    "compilerOptions": {
+      "noEmit": true,
+      "lib": ["es2021", "dom", "esnext"],
+      "declaration": false,
+      "declarationMap": false,
+      "rootDir": ".",
+      "paths": {},
+    }
+  }
+  

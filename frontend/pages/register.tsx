@@ -4,7 +4,7 @@ import React, { useState, useContext } from 'react';
 
 import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
 import AppContext from '../contexts/context';
-import { registerUser } from './api/auth/[...auth]';
+import auth from './api/auth/[...auth]';
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
@@ -23,13 +23,13 @@ const Register = () => {
     setLoading(true);
     console.log('values', values);
     try {
-      const res = await registerUser(
+      const res = await auth.registerUser(
         values.username,
         values.email,
         values.password
       );
       console.log('res', res);
-      appContext.setUser(res.user);
+      appContext?.setUser(res.user);
     } catch (err) {
       console.log('error', err);
       setLoading(false);

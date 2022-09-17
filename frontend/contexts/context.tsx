@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 // create auth context with default value
 
 import { useState } from 'react';
+import { User } from '../pages/api/auth/login';
 
 export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -57,11 +58,6 @@ export const useAppContext = () => {
     removeItem,
   };
 };
-
-interface User {
-  id: number;
-  username: string;
-}
 
 interface AppContextInterface {
   isAuthenticated: boolean;

@@ -1,19 +1,39 @@
 import { Grid, Card, Text, Row, Image, Button } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import AppContext from '../contexts/context';
 
-export default function StoreList(props) {
-  const [restaurantID, setRestaurantID] = useState(0);
-  const { cart } = useContext(AppContext);
-  const [state, setState] = useState(cart);
+const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
+
+export default function RestaurantList(props) {
   const GET_RESTAURANTS = gql`
     query {
       restaurants {
-        id
-        name
-        description
+        data {
+          id
+          attributes {
+            Restaurant {
+              id
+              description
+              name
+              thumbnail {
+                data {
+                  attributes {
+                    name
+                    size
+                    width
+                    previewUrl
+                    height
+                    alternativeText
+                    caption
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   `;
@@ -21,30 +41,30 @@ export default function StoreList(props) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR</p>;
   if (!data) return <p>Not found</p>;
-  console.log(`Query Data: ${data.restaurants}`);
 
-  let searchQuery =
-    data.restaurants.filter((res) => {
-      return res.name.toLowerCase().includes(props.search);
+  const searchQuery =
+    data.restaurants.data.map((res) => {
+      return res.attributes.Restaurant;
     }) || [];
 
-  let restId = searchQuery[0] ? searchQuery[0].id : null;
-
-  const restList = searchQuery.map((store, index) => {
+  const restList = searchQuery.map((restaurant, index) => {
+    const {
+      data: { attributes: thumbnail },
+    } = restaurant?.thumbnail;
     return (
-      <Card key={store.id} color="black">
+      <Card key={restaurant.id} color="black">
         <Card.Body>
           <Row justify="center" align="center">
-            <Image objectFit="cover" src={store?.thumbnail}></Image>
+            <Image objectFit="cover" src={`${API_URL}${thumbnail.url}`}></Image>
           </Row>
           <Row justify="center" align="center">
             <Text h4 size={20} css={{ m: 0 }}>
-              {store?.name}
+              {restaurant?.name}
             </Text>
           </Row>
           <Row justify="center" align="center">
             <Text h4 size={15} b css={{ m: 0 }}>
-              {store?.description}
+              {restaurant?.description}
             </Text>
           </Row>
         </Card.Body>

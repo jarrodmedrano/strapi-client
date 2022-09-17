@@ -1,16 +1,18 @@
 /* /pages/login.js */
 
 import React, { useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
 import AppContext from '../contexts/context';
 import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { login } from './api/auth/[...auth]';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { User } from './api/auth/login';
 
 const Schema = z.object({
-  name: z.string(),
+  identifier: z.string(),
   password: z.string(),
 });
 
@@ -22,19 +24,30 @@ function Login(props) {
   const appContext = useContext(AppContext);
 
   useEffect(() => {
-    if (appContext.isAuthenticated) {
+    if (appContext?.isAuthenticated) {
       router.push('/'); // redirect if you're already logged in
     }
   }, []);
 
-  const handleLogin = async (values) => {
+  const handleLogin = async (values: {
+    identifier: string;
+    password: string;
+  }) => {
     setLoading(true);
     console.log('values', values);
-    try {
-      const res = await login(values.name, values.password);
-      appContext.setUser(res.user);
 
-      console.log('res', res);
+    const req: AxiosRequestConfig = {
+      method: 'POST',
+      url: 'http://localhost:3000/api/auth/login',
+      data: values,
+    };
+
+    try {
+      const { data: user }: AxiosResponse<User> = await axios(req);
+
+      appContext?.setUser(user);
+
+      router.push('/');
     } catch (err) {
       console.log('error', err);
       setLoading(false);
@@ -46,7 +59,7 @@ function Login(props) {
       <Row>
         <Col>
           <Formik
-            initialValues={{ name: '', password: '' }}
+            initialValues={{ identifier: '', password: '' }}
             onSubmit={handleLogin}
             validationSchema={toFormikValidationSchema(Schema)}
           >
@@ -64,14 +77,18 @@ function Login(props) {
                     label="Name"
                     bordered
                     clearable
-                    name="name"
+                    name="identifier"
                     style={{ height: 50, fontSize: '1.2em' }}
                     onChange={handleChange}
-                    value={values.name}
-                    color={errors.name && touched.name ? 'error' : 'default'}
+                    value={values.identifier}
+                    color={
+                      errors.identifier && touched.identifier
+                        ? 'error'
+                        : 'default'
+                    }
                     helperText={
-                      errors.name &&
-                      touched.name &&
+                      errors.identifier &&
+                      touched.identifier &&
                       errors?.password?.toString()
                     }
                   />
