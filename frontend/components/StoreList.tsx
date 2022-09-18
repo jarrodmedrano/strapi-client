@@ -52,7 +52,7 @@ export default function RestaurantList(props) {
       data: { attributes: thumbnail },
     } = restaurant?.thumbnail;
     return (
-      <Link>
+      <Link href="/dishes">
         <Card key={restaurant.id} color="black">
           <Card.Body>
             <Row justify="center" align="center">

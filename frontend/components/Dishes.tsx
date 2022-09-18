@@ -6,7 +6,7 @@ import AppContext from '../contexts/context';
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
-export default function Dishes(props) {
+export default function DishesList(props) {
   const GET_DISHES = gql`
     query {
       dishes {
@@ -49,8 +49,8 @@ export default function Dishes(props) {
 
   const restList = searchQuery.map((dish, index) => {
     const {
-      data: { attributes: thumbnail },
-    } = dish?.thumbnail;
+      data: { attributes: thumbnail = '' },
+    } = dish?.thumbnail || null;
     return (
       <Card key={dish.id} color="black">
         <Card.Body>
