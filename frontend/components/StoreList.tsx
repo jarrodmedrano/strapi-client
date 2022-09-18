@@ -1,4 +1,4 @@
-import { Grid, Card, Text, Row, Image, Button } from '@nextui-org/react';
+import { Grid, Card, Text, Row, Image, Button, Link } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
 
@@ -52,23 +52,28 @@ export default function RestaurantList(props) {
       data: { attributes: thumbnail },
     } = restaurant?.thumbnail;
     return (
-      <Card key={restaurant.id} color="black">
-        <Card.Body>
-          <Row justify="center" align="center">
-            <Image objectFit="cover" src={`${API_URL}${thumbnail.url}`}></Image>
-          </Row>
-          <Row justify="center" align="center">
-            <Text h4 size={20} css={{ m: 0 }}>
-              {restaurant?.name}
-            </Text>
-          </Row>
-          <Row justify="center" align="center">
-            <Text h4 size={15} b css={{ m: 0 }}>
-              {restaurant?.description}
-            </Text>
-          </Row>
-        </Card.Body>
-      </Card>
+      <Link>
+        <Card key={restaurant.id} color="black">
+          <Card.Body>
+            <Row justify="center" align="center">
+              <Image
+                objectFit="cover"
+                src={`${API_URL}${thumbnail.url}`}
+              ></Image>
+            </Row>
+            <Row justify="center" align="center">
+              <Text h4 size={20} css={{ m: 0 }}>
+                {restaurant?.name}
+              </Text>
+            </Row>
+            <Row justify="center" align="center">
+              <Text h4 size={15} b css={{ m: 0 }}>
+                {restaurant?.description}
+              </Text>
+            </Row>
+          </Card.Body>
+        </Card>
+      </Link>
     );
   });
 
