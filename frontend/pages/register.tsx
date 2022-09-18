@@ -1,13 +1,17 @@
 /* /pages/register.js */
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
 import AppContext from '../contexts/context';
-import auth from './api/auth/[...auth]';
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { User } from './api/auth/login';
+import { useRouter } from 'next/router';
+
+/* /lib/auth.js */
 
 const Schema = z.object({
   username: z.string(),
@@ -15,24 +19,44 @@ const Schema = z.object({
   password: z.string(),
 });
 
-const Register = () => {
+function Register() {
+  const [data, updateData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
   const appContext = useContext(AppContext);
 
-  const handleRegister = async (values) => {
-    setLoading(true);
+  useEffect(() => {
+    if (appContext?.isAuthenticated) {
+      router.push('/'); // redirect if you're already logged in
+    }
+  }, []);
+
+  const handleRegister = async (values: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     console.log('values', values);
+    setError(false);
+    setLoading(true);
+
+    const req: AxiosRequestConfig = {
+      method: 'POST',
+      url: 'http://localhost:3000/api/auth/register',
+      data: values,
+    };
+
     try {
-      const res = await auth.registerUser(
-        values.username,
-        values.email,
-        values.password
-      );
-      console.log('res', res);
-      appContext?.setUser(res.user);
-    } catch (err) {
+      const { data: user }: AxiosResponse<User> = await axios(req);
+
+      appContext?.setUser(user);
+
+      router.push('/');
+    } catch (err: unknown | AxiosError) {
       console.log('error', err);
       setLoading(false);
+      setError(err?.message);
     }
   };
 
@@ -67,9 +91,9 @@ const Register = () => {
                       errors.username && touched.username ? 'error' : 'default'
                     }
                     helperText={
-                      errors.username &&
-                      touched.username &&
-                      errors?.username?.toString()
+                      errors.username && touched.username
+                        ? errors?.username?.toString()
+                        : ''
                     }
                   />
                   <Spacer y={1.6} />
@@ -83,7 +107,9 @@ const Register = () => {
                     value={values.email}
                     color={errors.email && touched.email ? 'error' : 'default'}
                     helperText={
-                      errors.email && touched.email && errors?.email?.toString()
+                      errors.email && touched.email
+                        ? errors?.email?.toString()
+                        : ''
                     }
                   />
                   <Spacer y={1.6} />
@@ -102,9 +128,9 @@ const Register = () => {
                       errors.password && touched.password ? 'error' : 'default'
                     }
                     helperText={
-                      errors.password &&
-                      touched.password &&
-                      errors?.password?.toString()
+                      errors.password && touched.password
+                        ? errors?.password?.toString()
+                        : ''
                     }
                   />
 
@@ -118,70 +144,15 @@ const Register = () => {
                   <Button color="primary" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? 'Submitting... ' : 'Submit'}
                   </Button>
+                  <Spacer y={1.6} />
+                  {!loading && error && error}
                 </>
               </form>
             )}
           </Formik>
-
-          {/* <Form>
-                <Input
-                  disabled={loading}
-                  onChange={(e) =>
-                    setData({ ...data, username: e.target.value })
-                  }
-                  value={data.username}
-                  type="text"
-                  name="username"
-                  style={{ height: 50, fontSize: '1.2em' }}
-                />
-                <Input
-                  onChange={(e) => setData({ ...data, email: e.target.value })}
-                  value={data.email}
-                  type="email"
-                  name="email"
-                  style={{ height: 50, fontSize: '1.2em' }}
-                />
-                <Input
-                  onChange={(e) =>
-                    setData({ ...data, password: e.target.value })
-                  }
-                  value={data.password}
-                  type="password"
-                  name="password"
-                  style={{ height: 50, fontSize: '1.2em' }}
-                />
-                <span>
-                  <a href="">
-                    <small>Forgot Password?</small>
-                  </a>
-                </span>
-                <Button
-                  style={{ float: 'right', width: 120 }}
-                  color="primary"
-                  disabled={loading}
-                  onClick={() => {
-                    setLoading(true);
-                    registerUser(data.username, data.email, data.password)
-                      .then((res) => {
-                        // set authed user in global context object
-                        appContext.setUser(res.data.user);
-                        setLoading(false);
-                        console.log(
-                          `registered user: ${JSON.stringify(res.data)}`
-                        );
-                      })
-                      .catch((error) => {
-                        console.log(`error in register: ${error}`);
-                        //setError(error.response.data);
-                        setLoading(false);
-                      });
-                  }}
-                >
-                  {loading ? 'Loading..' : 'Submit'}
-                </Button> */}
         </Col>
       </Row>
     </Container>
   );
-};
+}
 export default Register;

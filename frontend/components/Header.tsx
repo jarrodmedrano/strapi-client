@@ -15,7 +15,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 export const Header = () => {
   const { data: session } = useSession();
 
-  const { user } = useContext(AppContext);
+  const { user, logout } = useContext(AppContext);
   console.log('user', user);
 
   const [variant, setVariant] = useState<
@@ -34,7 +34,7 @@ export const Header = () => {
       <Navbar.Content hideIn="xs"></Navbar.Content>
       <Navbar.Content>
         {user ? (
-          <Navbar.Link color="inherit" href="#">
+          <Navbar.Link color="inherit" href="#" onClick={logout}>
             Logout
           </Navbar.Link>
         ) : (

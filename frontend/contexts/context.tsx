@@ -1,6 +1,11 @@
 /* /context/AppContext.js */
 
-import React, { ReactNode } from 'react';
+// import { useEffect } from 'react';
+import Router from 'next/router';
+import Cookie from 'js-cookie';
+import axios from 'axios';
+
+import React, { ReactNode, SetStateAction } from 'react';
 // create auth context with default value
 
 import { useState } from 'react';
@@ -9,7 +14,7 @@ import { User } from '../pages/api/auth/login';
 export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cart, setCart] = useState({ items: [], total: 0 });
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<User | undefined>();
   const { items, total } = cart;
 
   const addItem = (item) => {
@@ -24,6 +29,13 @@ export const useAppContext = () => {
       };
       setCart(newCart);
     }
+  };
+
+  const logout = () => {
+    Cookie.remove('token');
+    delete window.__user;
+    window.localStorage.setItem('logout', Date.now().toString());
+    setUser(undefined);
   };
 
   const removeItem = (item) => {
@@ -56,6 +68,7 @@ export const useAppContext = () => {
     setUser,
     addItem,
     removeItem,
+    logout,
   };
 };
 

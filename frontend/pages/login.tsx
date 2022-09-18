@@ -7,7 +7,6 @@ import AppContext from '../contexts/context';
 import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { login } from './api/auth/[...auth]';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { User } from './api/auth/login';
 
@@ -16,7 +15,7 @@ const Schema = z.object({
   password: z.string(),
 });
 
-function Login(props) {
+function Login() {
   const [data, updateData] = useState({ identifier: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -87,9 +86,9 @@ function Login(props) {
                         : 'default'
                     }
                     helperText={
-                      errors.identifier &&
-                      touched.identifier &&
-                      errors?.password?.toString()
+                      errors.identifier && touched.identifier
+                        ? errors?.password?.toString()
+                        : ''
                     }
                   />
                   <Spacer y={1.6} />
@@ -107,9 +106,9 @@ function Login(props) {
                       errors.password && touched.password ? 'error' : 'default'
                     }
                     helperText={
-                      errors.password &&
-                      touched.password &&
-                      errors?.password?.toString()
+                      errors.password && touched.password
+                        ? errors?.password?.toString()
+                        : ''
                     }
                   />
                   <Spacer y={1.6} />
