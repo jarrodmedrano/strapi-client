@@ -13,15 +13,7 @@ import StoreList from '../components/StoreList';
 import { Header } from '../components/Header';
 
 const Index = () => {
-  return (
-    <>
-      <Grid.Container gap={2} justify="center">
-        <Grid xs={12} md={6}>
-          <StoreList store="" />
-        </Grid>
-      </Grid.Container>
-    </>
-  );
+  return <StoreList store="" />;
 };
 
 export default Index;

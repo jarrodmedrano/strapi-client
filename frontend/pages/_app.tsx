@@ -1,4 +1,10 @@
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import {
+  Container,
+  createTheme,
+  Grid,
+  NextUIProvider,
+  Row,
+} from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
 import { Header } from '../components/Header';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
@@ -50,7 +56,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <ApolloProvider client={client}>
               <div>
                 <Header />
-                <Component {...pageProps} />
+                <Grid.Container gap={2} justify="center">
+                  <Grid xs={12} md={6}>
+                    <Component {...pageProps} />
+                  </Grid>
+                </Grid.Container>
               </div>
             </ApolloProvider>
           </NextUIProvider>

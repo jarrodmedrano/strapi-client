@@ -14,15 +14,7 @@ import { Header } from '../components/Header';
 import DishesList from '../components/Dishes';
 
 const Dishes = () => {
-  return (
-    <>
-      <Grid.Container gap={2} justify="center">
-        <Grid xs={12} md={6}>
-          <DishesList store="" />
-        </Grid>
-      </Grid.Container>
-    </>
-  );
+  return <DishesList store="" />;
 };
 
 export default Dishes;

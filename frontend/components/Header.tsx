@@ -73,7 +73,7 @@ export const Header = () => {
                         h1
                         size={60}
                         css={{
-                          textGradient: '45deg, $pink600  -20%, deeppink 50%',
+                          textGradient: '45deg, $primary  -20%, $secondary 50%',
                         }}
                         weight="bold"
                       >
@@ -81,7 +81,7 @@ export const Header = () => {
                       </Text>
                     </Link>
                   </div>
-                  <h3>A marshmallow restaurant</h3>
+                  <h3>A marshmallow restaurant guide</h3>
                 </div>
               </Row>
             </Grid>

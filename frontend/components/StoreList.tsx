@@ -1,4 +1,13 @@
-import { Grid, Card, Text, Row, Image, Button, Link } from '@nextui-org/react';
+import {
+  Grid,
+  Card,
+  Text,
+  Row,
+  Image,
+  Button,
+  Link,
+  Col,
+} from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
 
@@ -48,34 +57,49 @@ export default function RestaurantList(props) {
     }) || [];
 
   const restList = searchQuery.map((restaurant, index) => {
+    console.log('restaurant', restaurant);
     const {
       data: { attributes: thumbnail },
     } = restaurant?.thumbnail;
     return (
-      <Link href="/dishes">
-        <Card key={restaurant.id} color="black">
-          <Card.Body>
-            <Row justify="center" align="center">
-              <Image
-                objectFit="cover"
+      <Grid xs={4} key={restaurant.id}>
+        <Link href={`/restaurant/${restaurant.id}`}>
+          {' '}
+          <Card key={restaurant.id} color="black" isPressable isHoverable>
+            <Card.Header css={{ position: 'absolute', zIndex: 1, top: 5 }}>
+              <Col>
+                <Text
+                  size={12}
+                  weight="bold"
+                  transform="uppercase"
+                  color="#ffffffAA"
+                >
+                  {restaurant?.name}
+                </Text>
+                <Text h4 color="white">
+                  {restaurant?.description}
+                </Text>
+              </Col>
+            </Card.Header>
+            <Card.Body css={{ p: 0 }}>
+              <Card.Image
                 src={`${API_URL}${thumbnail.url}`}
-              ></Image>
-            </Row>
-            <Row justify="center" align="center">
-              <Text h4 size={20} css={{ m: 0 }}>
-                {restaurant?.name}
-              </Text>
-            </Row>
-            <Row justify="center" align="center">
-              <Text h4 size={15} b css={{ m: 0 }}>
-                {restaurant?.description}
-              </Text>
-            </Row>
-          </Card.Body>
-        </Card>
-      </Link>
+                objectFit="cover"
+                width="100%"
+                height={140}
+              />
+            </Card.Body>
+
+            <Card.Footer css={{ justifyItems: 'center' }}>
+              <Row wrap="wrap" justify="space-between" align="center">
+                <Button size="xs">View</Button>
+              </Row>
+            </Card.Footer>
+          </Card>
+        </Link>
+      </Grid>
     );
   });
 
-  return <Grid xs={4}>{restList}</Grid>;
+  return <Grid.Container gap={2}>{restList}</Grid.Container>;
 }
