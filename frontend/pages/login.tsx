@@ -1,13 +1,13 @@
 /* /pages/login.js */
 
-import React, { useState, useEffect, useContext } from 'react';
-import { Router, useRouter } from 'next/router';
+import React, { useEffect, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
-import AppContext from '../contexts/context';
 import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import AppContext from '../contexts/context';
 import { User } from './api/auth/login';
 
 const Schema = z.object({
@@ -16,9 +16,7 @@ const Schema = z.object({
 });
 
 function Login() {
-  const [data, updateData] = useState({ identifier: '', password: '' });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);
 
@@ -32,9 +30,6 @@ function Login() {
     identifier: string;
     password: string;
   }) => {
-    setLoading(true);
-    console.log('values', values);
-
     const req: AxiosRequestConfig = {
       method: 'POST',
       url: 'http://localhost:3000/api/auth/login',
@@ -48,8 +43,7 @@ function Login() {
 
       router.push('/');
     } catch (err) {
-      console.log('error', err);
-      setLoading(false);
+      setError('Error logging in');
     }
   };
 
@@ -122,6 +116,7 @@ function Login() {
                     {isSubmitting ? 'Submitting... ' : 'Submit'}
                   </Button>
                 </>
+                {error}
               </form>
             )}
           </Formik>

@@ -7,24 +7,16 @@ import {
   Grid,
   Row,
 } from '@nextui-org/react';
-import { StyledComponent } from '@stitches/react/types/styled-component';
 import { useContext, useState } from 'react';
-import AppContext from '../contexts/context';
-import { useSession, signIn, signOut } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
-import { User } from '../schemas/user';
+import AppContext from '../contexts/context';
 
 export const Header = () => {
-  const { data: session } = useSession();
-
   const { user, logout } = useContext(AppContext);
-  console.log('user', user);
 
-  const [variant, setVariant] = useState<
-    'static' | 'sticky' | 'floating' | undefined
-  >('static');
-
-  const variants = ['static', 'floating', 'sticky'];
+  const [variant] = useState<'static' | 'sticky' | 'floating' | undefined>(
+    'static'
+  );
 
   return (
     <>

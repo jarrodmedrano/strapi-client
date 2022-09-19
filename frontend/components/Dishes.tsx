@@ -1,26 +1,15 @@
-import {
-  Grid,
-  Card,
-  Text,
-  Row,
-  Image,
-  Button,
-  StyledButton,
-  Col,
-} from '@nextui-org/react';
+import { Grid, Card, Text, Row, Button, Col } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 import AppContext from '../contexts/context';
-import { Dish } from '../schemas/dish';
 import { RestaurantDish } from '../schemas/restaurant';
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
 export default function DishesList({ restId }: { restId: string }) {
-  let { cart, addItem, removeItem } = useContext(AppContext);
+  const { addItem } = useContext(AppContext);
 
-  console.log('rest', restId);
   const GET_RESTAURANT_DISHES = gql`
     query ($id: ID!) {
       restaurant(id: $id) {
@@ -71,7 +60,6 @@ export default function DishesList({ restId }: { restId: string }) {
 
   const {
     restaurant: {
-      data: restaurantData,
       data: {
         attributes: {
           Restaurant: { dishes },
@@ -80,12 +68,7 @@ export default function DishesList({ restId }: { restId: string }) {
     },
   } = data;
 
-  const {} = restaurantData;
-
-  console.log('data', dishes);
-
   const restList = dishes.data.map((dish: RestaurantDish) => {
-    console.log('dish', dish);
     const {
       attributes: {
         Dish: {

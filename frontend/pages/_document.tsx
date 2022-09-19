@@ -6,8 +6,8 @@ import Document, {
   NextScript,
 } from 'next/document';
 import React from 'react';
-import { Goog } from '../components/Goog';
 import { CssBaseline } from '@nextui-org/react';
+import Goog from '../components/Goog';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -18,6 +18,7 @@ class MyDocument extends Document {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   render() {
     return (
       <Html lang="en">

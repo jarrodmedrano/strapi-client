@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import Cookie from 'js-cookie';
+import axios, { AxiosResponse } from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
 
@@ -26,7 +25,6 @@ const handler: (
 ) => Promise<void> = async (req, res) => {
   const {
     body: { username, email, password },
-    method,
   } = req;
 
   try {

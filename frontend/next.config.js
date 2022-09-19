@@ -8,4 +8,4 @@ module.exports = {
     // ignoreBuildErrors: true,
   },
   output: 'standalone',
-};
+}; 

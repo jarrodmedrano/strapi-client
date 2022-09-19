@@ -1,15 +1,7 @@
-import {
-  Container,
-  createTheme,
-  Grid,
-  NextUIProvider,
-  Row,
-} from '@nextui-org/react';
-import React, { useContext, useState } from 'react';
-import { Header } from '../components/Header';
+import { createTheme, Grid, NextUIProvider } from '@nextui-org/react';
+import React from 'react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import './index.css';
-import AppContext, { AppContextProvider } from '../contexts/context';
 import { SessionProvider } from 'next-auth/react';
 
 import {
@@ -19,6 +11,8 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { Session } from 'next-auth';
+import { AppContextProvider } from '../contexts/context';
+import { Header } from '../components/Header';
 
 const lightTheme = createTheme({
   type: 'light',
@@ -42,7 +36,6 @@ function MyApp({
   pageProps: { session: Session };
 }) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
-  console.log(`URL: ${API_URL}`);
   const link = new HttpLink({ uri: `${API_URL}/graphql` });
   const cache = new InMemoryCache();
   const client = new ApolloClient({ link, cache });

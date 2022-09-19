@@ -1,14 +1,10 @@
 /* /context/AppContext.js */
 
-// import { useEffect } from 'react';
-import Router from 'next/router';
 import Cookie from 'js-cookie';
-import axios from 'axios';
 
-import React, { ReactNode, SetStateAction } from 'react';
+import React, { ReactNode, useState } from 'react';
 // create auth context with default value
 
-import { useState } from 'react';
 import { User } from '../pages/api/auth/login';
 import { CartItem } from '../schemas/cart';
 
@@ -25,9 +21,9 @@ export const useAppContext = () => {
     const foundItem = items.find((i) => i.id === item.id);
 
     if (!foundItem) {
-      let temp = JSON.parse(JSON.stringify(item));
+      const temp = JSON.parse(JSON.stringify(item));
       temp.quantity = 1;
-      var newCart = {
+      const newCart = {
         items: [...items, temp],
         total: total + item.price,
       };
@@ -37,7 +33,8 @@ export const useAppContext = () => {
 
   const logout = () => {
     Cookie.remove('token');
-    //@ts-ignore
+    // @ts-ignore
+    // eslint-disable-next-line no-underscore-dangle
     delete window.__user;
     window.localStorage.setItem('logout', Date.now().toString());
     setUser(undefined);
@@ -47,14 +44,12 @@ export const useAppContext = () => {
     const foundItem = items.find((i: CartItem) => i.id === item.id);
 
     if (foundItem) {
-      const filteredCart = items.filter(
-        (item: CartItem) => item.id !== foundItem.id
-      );
+      const filteredCart = items.filter(() => item.id !== foundItem.id);
       const newTotal = total - item.price;
 
       if (foundItem?.quantity > 1) {
         const updatedItem = { ...foundItem };
-        updatedItem.quantity = updatedItem.quantity - 1;
+        updatedItem.quantity -= 1;
 
         setCart({
           items: [...filteredCart, updatedItem],

@@ -1,18 +1,6 @@
-import {
-  Grid,
-  Card,
-  Text,
-  Row,
-  Image,
-  Button,
-  Link,
-  Col,
-} from '@nextui-org/react';
+import { Grid, Card, Text, Row, Button, Link, Col } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
 import { Restaurant, RestaurantChild } from '../schemas/restaurant';
-import { useContext, useEffect, useState } from 'react';
-
-import AppContext from '../contexts/context';
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
@@ -53,15 +41,14 @@ export default function RestaurantList() {
   if (!data) return <p>Not found</p>;
 
   const searchQuery =
-    data.restaurants.data.map((res: Restaurant) => {
-      return res.attributes.Restaurant;
-    }) || [];
+    data.restaurants.data.map((res: Restaurant) => res.attributes.Restaurant) ||
+    [];
 
   const restList = searchQuery.map((restaurant: RestaurantChild) => {
-    console.log('restaurant', restaurant);
     const {
       data: { attributes: thumbnail },
-    } = restaurant?.thumbnail;
+    } = restaurant.thumbnail;
+
     return (
       <Grid xs={4} key={restaurant.id}>
         <Link href={`/restaurant/${restaurant.id}`}>

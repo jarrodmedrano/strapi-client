@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import DishesList from '../../components/Dishes';
-
 import { useRouter } from 'next/router';
+import DishesList from '../../components/Dishes';
 
 const Dishes = () => {
   const router = useRouter();
   const [rid, setRid] = useState('');
   React.useEffect(() => {
     if (router.isReady) {
-      // Code using query
-      console.log(router.query.rid);
       setRid(router.query.rid as string);
     }
   }, [router.isReady]);

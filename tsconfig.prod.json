@@ -20,7 +20,7 @@
       "resolveJsonModule": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "preserveSymlinks": true
+      "preserveSymlinks": true,
     }
   }
   

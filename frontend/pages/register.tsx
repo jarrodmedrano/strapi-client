@@ -3,13 +3,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 
 import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
-import AppContext from '../contexts/context';
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { User } from './api/auth/login';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
+import { User } from './api/auth/login';
+import AppContext from '../contexts/context';
 
 /* /lib/auth.js */
 
@@ -20,7 +20,6 @@ const Schema = z.object({
 });
 
 function Register() {
-  const [data, updateData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -52,9 +51,9 @@ function Register() {
       appContext?.setUser(user);
 
       router.push('/');
-    } catch (err: unknown | AxiosError) {
+    } catch (err: unknown) {
       setLoading(false);
-      //@ts-ignore
+      // @ts-ignore
       setError(err?.message);
     }
   };
