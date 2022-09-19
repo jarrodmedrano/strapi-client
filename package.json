@@ -8,7 +8,8 @@
     "server:dev": "npm run develop --prefix backend",
     "client": "npm run start --prefix frontend",
     "client:dev": "npm run dev --prefix frontend",
-    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\""
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "lint": "eslint --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",
