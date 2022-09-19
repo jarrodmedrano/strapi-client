@@ -22,7 +22,7 @@ const Schema = z.object({
 function Register() {
   const [data, updateData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);
 
@@ -37,8 +37,7 @@ function Register() {
     email: string;
     password: string;
   }) => {
-    console.log('values', values);
-    setError(false);
+    setError('');
     setLoading(true);
 
     const req: AxiosRequestConfig = {
@@ -54,8 +53,8 @@ function Register() {
 
       router.push('/');
     } catch (err: unknown | AxiosError) {
-      console.log('error', err);
       setLoading(false);
+      //@ts-ignore
       setError(err?.message);
     }
   };

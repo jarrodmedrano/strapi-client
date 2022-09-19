@@ -1,23 +1,18 @@
-import { NextSeo } from 'next-seo';
-import {
-  Grid,
-  Container,
-  Card,
-  Row,
-  Text,
-  Image,
-  Link,
-} from '@nextui-org/react';
-import React from 'react';
-import StoreList from '../../components/StoreList';
-import { Header } from '../../components/Header';
+import React, { useState } from 'react';
 import DishesList from '../../components/Dishes';
 
 import { useRouter } from 'next/router';
 
 const Dishes = () => {
   const router = useRouter();
-  const { rid } = router.query;
+  const [rid, setRid] = useState('');
+  React.useEffect(() => {
+    if (router.isReady) {
+      // Code using query
+      console.log(router.query.rid);
+      setRid(router.query.rid as string);
+    }
+  }, [router.isReady]);
 
   return <DishesList restId={rid} />;
 };

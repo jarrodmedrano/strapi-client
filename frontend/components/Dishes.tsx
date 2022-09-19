@@ -12,6 +12,8 @@ import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
 
 import AppContext from '../contexts/context';
+import { Dish } from '../schemas/dish';
+import { RestaurantDish } from '../schemas/restaurant';
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
@@ -82,7 +84,7 @@ export default function DishesList({ restId }: { restId: string }) {
 
   console.log('data', dishes);
 
-  const restList = dishes.data.map((dish, index) => {
+  const restList = dishes.data.map((dish: RestaurantDish) => {
     console.log('dish', dish);
     const {
       attributes: {

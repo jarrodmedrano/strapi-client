@@ -9,12 +9,12 @@ import {
   Link,
 } from '@nextui-org/react';
 import React from 'react';
-import StoreList from '../components/StoreList';
+import StoreList from '../components/RestaurantList';
 import { Header } from '../components/Header';
 import DishesList from '../components/Dishes';
 
 const Dishes = () => {
-  return <DishesList store="" />;
+  return <DishesList restId="" />;
 };
 
 export default Dishes;

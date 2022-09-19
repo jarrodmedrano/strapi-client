@@ -10,14 +10,18 @@ import React, { ReactNode, SetStateAction } from 'react';
 
 import { useState } from 'react';
 import { User } from '../pages/api/auth/login';
+import { CartItem } from '../schemas/cart';
 
 export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [cart, setCart] = useState({ items: [], total: 0 });
-  const [user, setUser] = useState<User | undefined>();
+  const [cart, setCart] = useState<{ items: CartItem[]; total: number }>({
+    items: [],
+    total: 0,
+  });
+  const [user, setUser] = useState<User>();
   const { items, total } = cart;
 
-  const addItem = (item) => {
+  const addItem = (item: CartItem) => {
     const foundItem = items.find((i) => i.id === item.id);
 
     if (!foundItem) {
@@ -33,29 +37,35 @@ export const useAppContext = () => {
 
   const logout = () => {
     Cookie.remove('token');
+    //@ts-ignore
     delete window.__user;
     window.localStorage.setItem('logout', Date.now().toString());
     setUser(undefined);
   };
 
-  const removeItem = (item) => {
-    const foundItem = items.find((i) => i.id === item.id);
-    const filteredCart = items.filter((item) => item.id !== foundItem.id);
-    const newTotal = total - item.price;
+  const removeItem = (item: CartItem) => {
+    const foundItem = items.find((i: CartItem) => i.id === item.id);
 
-    if (foundItem.quantity > 1) {
-      const updatedItem = { ...foundItem };
-      updatedItem.quantity = updatedItem.quantity - 1;
+    if (foundItem) {
+      const filteredCart = items.filter(
+        (item: CartItem) => item.id !== foundItem.id
+      );
+      const newTotal = total - item.price;
 
-      setCart({
-        items: [...filteredCart, updatedItem],
-        total: newTotal,
-      });
-    } else {
-      setCart({
-        items: [...filteredCart],
-        total: newTotal,
-      });
+      if (foundItem?.quantity > 1) {
+        const updatedItem = { ...foundItem };
+        updatedItem.quantity = updatedItem.quantity - 1;
+
+        setCart({
+          items: [...filteredCart, updatedItem],
+          total: newTotal,
+        });
+      } else {
+        setCart({
+          items: [...filteredCart],
+          total: newTotal,
+        });
+      }
     }
   };
 
@@ -81,12 +91,13 @@ interface AppContextInterface {
   setCart: React.Dispatch<React.SetStateAction<any>>;
   addItem: (item: any) => void;
   removeItem: (item: any) => void;
-  user: boolean;
+  user?: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  logout: () => void;
 }
 
-const AppContext = React.createContext<AppContextInterface | null>(
+const AppContext = React.createContext<AppContextInterface>(
   {} as AppContextInterface
 );
 

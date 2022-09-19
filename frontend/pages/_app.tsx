@@ -18,6 +18,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import { Session } from 'next-auth';
 
 const lightTheme = createTheme({
   type: 'light',
@@ -33,10 +34,15 @@ const darkTheme = createTheme({
   },
 });
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: {
+  Component: React.FC;
+  pageProps: { session: Session };
+}) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
   console.log(`URL: ${API_URL}`);
-  const [query, setQuery] = useState('');
   const link = new HttpLink({ uri: `${API_URL}/graphql` });
   const cache = new InMemoryCache();
   const client = new ApolloClient({ link, cache });

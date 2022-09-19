@@ -3,9 +3,6 @@ import {
   Button,
   Link,
   Text,
-  Card,
-  Radio,
-  NavbarProps,
   Container,
   Grid,
   Row,
@@ -15,6 +12,7 @@ import { useContext, useState } from 'react';
 import AppContext from '../contexts/context';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
+import { User } from '../schemas/user';
 
 export const Header = () => {
   const { data: session } = useSession();

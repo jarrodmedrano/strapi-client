@@ -9,13 +9,14 @@ import {
   Col,
 } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
+import { Restaurant, RestaurantChild } from '../schemas/restaurant';
 import { useContext, useEffect, useState } from 'react';
 
 import AppContext from '../contexts/context';
 
 const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
-export default function RestaurantList(props) {
+export default function RestaurantList() {
   const GET_RESTAURANTS = gql`
     query {
       restaurants {
@@ -52,11 +53,11 @@ export default function RestaurantList(props) {
   if (!data) return <p>Not found</p>;
 
   const searchQuery =
-    data.restaurants.data.map((res) => {
+    data.restaurants.data.map((res: Restaurant) => {
       return res.attributes.Restaurant;
     }) || [];
 
-  const restList = searchQuery.map((restaurant, index) => {
+  const restList = searchQuery.map((restaurant: RestaurantChild) => {
     console.log('restaurant', restaurant);
     const {
       data: { attributes: thumbnail },
