@@ -26,6 +26,7 @@ export default function DishesList({ restId }: { restId: string }) {
                       id
                       description
                       name
+                      price
                       thumbnail {
                         data {
                           attributes {
@@ -110,7 +111,7 @@ export default function DishesList({ restId }: { restId: string }) {
 
           <Card.Footer css={{ justifyItems: 'center' }}>
             <Row wrap="wrap" justify="space-between" align="center">
-              <Button size="xs" onClick={() => addItem(dish)}>
+              <Button size="xs" onClick={() => addItem(dish.attributes.Dish)}>
                 Add to Cart
               </Button>
             </Row>

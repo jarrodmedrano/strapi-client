@@ -6,13 +6,15 @@ import {
   Container,
   Grid,
   Row,
+  Badge,
 } from '@nextui-org/react';
 import { useContext, useState } from 'react';
 import { NextSeo } from 'next-seo';
 import AppContext from '../contexts/context';
+import CartIcon from './CartIcon';
 
 export const Header = () => {
-  const { user, logout } = useContext(AppContext);
+  const { user, logout, cart } = useContext(AppContext);
 
   const [variant] = useState<'static' | 'sticky' | 'floating' | undefined>(
     'static'
@@ -45,6 +47,10 @@ export const Header = () => {
               </Button>
             </Navbar.Item>
           )}
+
+          <Badge color="error" content={cart?.total} shape="circle">
+            <CartIcon fill="currentColor" size="30" />
+          </Badge>
         </Navbar.Content>
       </Navbar>
       <div className="bgImage">

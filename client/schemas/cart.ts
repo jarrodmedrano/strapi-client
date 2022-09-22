@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const cartItem = z.object({
+const cartItem = z.object({
   id: z.string(),
   description: z.string(),
   name: z.string(),
@@ -9,3 +9,10 @@ export const cartItem = z.object({
 });
 
 export type CartItem = z.infer<typeof cartItem>;
+
+const cart = z.object({
+  items: z.array(cartItem),
+  total: z.number(),
+});
+
+export type Cart = z.infer<typeof cart>;

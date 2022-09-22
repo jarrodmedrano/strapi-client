@@ -1,33 +1,52 @@
 /* /context/AppContext.js */
 
 import Cookie from 'js-cookie';
-
-import React, { ReactNode, useState } from 'react';
+import localforage from 'localforage';
+import React, { ReactNode, useEffect, useState } from 'react';
 // create auth context with default value
 
 import { User } from '../pages/api/auth/login';
-import { CartItem } from '../schemas/cart';
+import { Cart, CartItem } from '../schemas/cart';
 
 export const useAppContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [cart, setCart] = useState<{ items: CartItem[]; total: number }>({
+  const [cart, setCart] = useState<Cart>({
     items: [],
     total: 0,
   });
   const [user, setUser] = useState<User>();
   const { items, total } = cart;
 
-  const addItem = (item: CartItem) => {
-    const foundItem = items.find((i) => i.id === item.id);
+  const addItem = async (item: CartItem) => {
+    const foundItem: CartItem | undefined = items.find((i) => i.id === item.id);
 
     if (!foundItem) {
       const temp = JSON.parse(JSON.stringify(item));
       temp.quantity = 1;
+
+      try {
+        const result = await localforage.setItem('cart', {
+          items: [...items, temp],
+          total: total + 1,
+        });
+        setCart(result);
+      } catch (err) {
+        // This code runs if there were any errors.
+      }
+    } else {
+      const filtered: CartItem[] = items.filter((i) => i.id !== item.id);
+      const temp = JSON.parse(JSON.stringify(item));
+      temp.quantity = foundItem.quantity + 1;
       const newCart = {
-        items: [...items, temp],
-        total: total + item.price,
+        items: [...filtered, temp],
+        total: total + 1,
       };
-      setCart(newCart);
+      try {
+        const result = await localforage.setItem('cart', newCart);
+        setCart(result);
+      } catch (err) {
+        // This code runs if there were any errors.
+      }
     }
   };
 
@@ -40,29 +59,61 @@ export const useAppContext = () => {
     setUser(undefined);
   };
 
-  const removeItem = (item: CartItem) => {
-    const foundItem = items.find((i: CartItem) => i.id === item.id);
+  const removeItem = async (item: CartItem) => {
+    const foundItem = items.find((i: CartItem) => i?.id === item?.id);
 
     if (foundItem) {
-      const filteredCart = items.filter(() => item.id !== foundItem.id);
+      const filteredCart = items.filter(() => item?.id !== foundItem.id);
       const newTotal = total - item.price;
 
       if (foundItem?.quantity > 1) {
         const updatedItem = { ...foundItem };
         updatedItem.quantity -= 1;
 
-        setCart({
-          items: [...filteredCart, updatedItem],
-          total: newTotal,
-        });
+        try {
+          const newCart: Cart = {
+            items: [...filteredCart, updatedItem],
+            total: newTotal,
+          };
+          const result = await localforage.setItem('cart', newCart);
+          setCart(result);
+        } catch (err) {
+          // This code runs if there were any errors.
+        }
       } else {
-        setCart({
+        const result = await localforage.setItem('cart', {
           items: [...filteredCart],
           total: newTotal,
         });
+        setCart(result);
       }
     }
   };
+
+  const getCart: () => void = async () => {
+    try {
+      const result = await localforage.getItem('cart');
+      if (!result) {
+        setCart({
+          items: [],
+          total: 0,
+        });
+      } else {
+        setCart(result as Cart);
+      }
+    } catch (err) {
+      console.log('some error', err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const newCart = await getCart();
+      console.log('new cart', newCart);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
 
   return {
     isAuthenticated,
@@ -74,6 +125,7 @@ export const useAppContext = () => {
     addItem,
     removeItem,
     logout,
+    getCart,
   };
 };
 
@@ -90,6 +142,7 @@ interface AppContextInterface {
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   logout: () => void;
+  getCart: () => void;
 }
 
 const AppContext = React.createContext<AppContextInterface>(
