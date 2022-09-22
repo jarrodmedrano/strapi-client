@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import Cookie from 'js-cookie';
 import AppContext from '../contexts/context';
 import { User } from './api/auth/login';
 
@@ -37,10 +38,9 @@ function Login() {
     };
 
     try {
-      const { data: user }: AxiosResponse<User> = await axios(req);
-
-      appContext?.setUser(user);
-
+      const { data: user, data }: AxiosResponse<User> = await axios(req);
+      Cookie.set('token', data.jwt);
+      appContext.setUser(user);
       router.push('/');
     } catch (err) {
       setError('Error logging in');

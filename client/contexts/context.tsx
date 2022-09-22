@@ -1,8 +1,8 @@
 /* /context/AppContext.js */
 
-import Cookie from 'js-cookie';
 import localforage from 'localforage';
 import React, { ReactNode, useEffect, useState } from 'react';
+import Cookie from 'js-cookie';
 // create auth context with default value
 
 import { User } from '../pages/api/auth/login';
@@ -14,7 +14,7 @@ export const useAppContext = () => {
     items: [],
     total: 0,
   });
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | undefined>();
   const { items, total } = cart;
 
   const addItem = async (item: CartItem) => {
@@ -50,12 +50,10 @@ export const useAppContext = () => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await localforage.setItem('logout', Date.now().toString());
+    await localforage.setItem('user', null);
     Cookie.remove('token');
-    // @ts-ignore
-    // eslint-disable-next-line no-underscore-dangle
-    delete window.__user;
-    window.localStorage.setItem('logout', Date.now().toString());
     setUser(undefined);
   };
 
@@ -90,30 +88,75 @@ export const useAppContext = () => {
     }
   };
 
-  const getCart: () => void = async () => {
+  const getCart: () => Promise<Cart | unknown> = async () => {
+    const defaults = {
+      items: [],
+      total: 0,
+    };
     try {
       const result = await localforage.getItem('cart');
       if (!result) {
-        setCart({
-          items: [],
-          total: 0,
-        });
+        setCart(defaults);
       } else {
         setCart(result as Cart);
       }
+
+      return result;
     } catch (err) {
       console.log('some error', err);
     }
+
+    return defaults;
+  };
+
+  const getUser: () => Promise<User | unknown> = async () => {
+    let defaults;
+    try {
+      const result = await localforage.getItem('user');
+      if (!result) {
+        setUser(defaults);
+      } else {
+        setUser(result as User);
+      }
+
+      return result;
+    } catch (err) {
+      console.log('some error', err);
+    }
+
+    return defaults;
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const newCart = await getCart();
-      console.log('new cart', newCart);
+
+      return newCart;
     };
 
     fetchData().catch(console.error);
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const newUser = await getUser();
+
+      return newUser;
+    };
+
+    fetchData().catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await localforage.setItem('login', Date.now().toString());
+      await localforage.setItem('user', user);
+    };
+
+    if (user) {
+      fetchData().catch(console.error);
+    }
+  }, [user]);
 
   return {
     isAuthenticated,
@@ -126,6 +169,7 @@ export const useAppContext = () => {
     removeItem,
     logout,
     getCart,
+    getUser,
   };
 };
 
@@ -142,7 +186,8 @@ interface AppContextInterface {
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   logout: () => void;
-  getCart: () => void;
+  getCart: () => Promise<Cart | unknown>;
+  getUser: () => Promise<User | unknown>;
 }
 
 const AppContext = React.createContext<AppContextInterface>(
