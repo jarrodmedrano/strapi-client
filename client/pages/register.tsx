@@ -2,7 +2,15 @@
 
 import React, { useState, useContext, useEffect } from 'react';
 
-import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Input,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import { Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
@@ -62,6 +70,7 @@ function Register() {
     <Container>
       <Row>
         <Col>
+          <Text h1>Register</Text>
           <Formik
             initialValues={{ username: '', email: '', password: '' }}
             onSubmit={handleRegister}

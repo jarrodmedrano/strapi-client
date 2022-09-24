@@ -48,9 +48,11 @@ export const Header = () => {
             </Navbar.Item>
           )}
 
-          <Badge color="error" content={cart?.total} shape="circle">
-            <CartIcon fill="currentColor" size="30" />
-          </Badge>
+          <Link href="/cart">
+            <Badge color="error" content={cart?.total} shape="circle">
+              <CartIcon fill="currentColor" size="30" />
+            </Badge>
+          </Link>
         </Navbar.Content>
       </Navbar>
       <div className="bgImage">

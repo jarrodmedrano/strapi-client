@@ -175,10 +175,7 @@ export const useAppContext = () => {
 
 interface AppContextInterface {
   isAuthenticated: boolean;
-  cart: {
-    items: any[];
-    total: number;
-  };
+  cart: Cart;
   setCart: React.Dispatch<React.SetStateAction<any>>;
   addItem: (item: any) => void;
   removeItem: (item: any) => void;

@@ -2,7 +2,15 @@
 
 import React, { useEffect, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Container, Row, Col, Button, Input, Spacer } from '@nextui-org/react';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Input,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
@@ -51,6 +59,7 @@ function Login() {
     <Container>
       <Row>
         <Col>
+          <Text h1>Login</Text>
           <Formik
             initialValues={{ identifier: '', password: '' }}
             onSubmit={handleLogin}
