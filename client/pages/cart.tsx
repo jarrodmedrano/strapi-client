@@ -5,6 +5,7 @@ import {
   Col,
   Grid,
   Row,
+  styled,
   Table,
   Text,
   Tooltip,
@@ -14,8 +15,13 @@ import { Cart, CartItem, CartItemType } from '../schemas/cart';
 import DeleteIcon from '../components/DeleteIcon';
 import IconButton from '../components/IconButton';
 import PlusIcon from '../components/PlusIcon';
+import Router from 'next/router';
 // we can pass cart data in via props method
 // the alternative is using useContext as below
+
+const TableWrapper = styled('div', {
+  width: '100%',
+});
 
 const RenderItems = ({
   cart,
@@ -71,7 +77,7 @@ const RenderItems = ({
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Add item" color="error">
                 <IconButton onClick={() => addItem(item)}>
-                  <PlusIcon size={20} fill="#FF0080" />
+                  <PlusIcon size={20} fill={'#17C964'} />
                 </IconButton>
               </Tooltip>
             </Col>
@@ -90,40 +96,62 @@ const RenderItems = ({
   };
 
   return (
+    <TableWrapper>
+      <Table
+        aria-label="Example table with static content"
+        css={{
+          height: 'auto',
+          minWidth: '100%',
+          width: '100%',
+        }}
+        selectionMode="single"
+      >
+        <Table.Header columns={columns}>
+          {(column) => (
+            <Table.Column key={column.key}>{column.label}</Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body items={rows}>
+          {(item) => (
+            <Table.Row key={item.id}>
+              {(columnKey) => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+    </TableWrapper>
+  );
+};
+const CheckoutItems = ({ cart }: { cart: Cart }) => (
+  <TableWrapper>
     <Table
       aria-label="Example table with static content"
       css={{
         height: 'auto',
         minWidth: '100%',
+        width: '100%',
       }}
+      selectionMode="single"
     >
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column key={column.key}>{column.label}</Table.Column>
-        )}
+      <Table.Header>
+        <Table.Column>Total</Table.Column>
+        <Table.Column>&nbsp;</Table.Column>
       </Table.Header>
-      <Table.Body items={rows}>
-        {(item) => (
-          <Table.Row key={item.id}>
-            {(columnKey) => (
-              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-            )}
-          </Table.Row>
-        )}
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>
+            <h5 style={{ fontWeight: 100, color: 'gray' }}>Total:</h5>
+            <h3>${cart?.total}</h3>
+          </Table.Cell>
+          <Table.Cell>
+            <Button onClick={() => Router.push('/checkout')}>Checkout</Button>
+          </Table.Cell>
+        </Table.Row>
       </Table.Body>
     </Table>
-  );
-};
-const CheckoutItems = ({ cart }: { cart: Cart }) => (
-  <div>
-    <Badge style={{ width: 200, padding: 10 }}>
-      <h5 style={{ fontWeight: 100, color: 'gray' }}>Total:</h5>
-      <h3>${cart?.total}</h3>
-    </Badge>
-    <Button>
-      <a>Order</a>
-    </Button>
-  </div>
+  </TableWrapper>
 );
 
 const CartRoute = () => {
@@ -139,20 +167,12 @@ const CartRoute = () => {
           <Text h1>Cart</Text>
           <hr />
         </Grid>
-        <Grid xs={12}>
-          {cart?.items ? (
-            <RenderItems
-              cart={cart}
-              addItem={addItem}
-              removeItem={removeItem}
-            />
-          ) : (
-            <></>
-          )}
-        </Grid>
-        <Grid xs={12}>
-          {cart?.items ? <CheckoutItems cart={cart} /> : <></>}
-        </Grid>
+        {cart?.items ? (
+          <RenderItems cart={cart} addItem={addItem} removeItem={removeItem} />
+        ) : (
+          <></>
+        )}
+        {cart?.items ? <CheckoutItems cart={cart} /> : <></>}
       </Grid.Container>
 
       <style jsx>{`
