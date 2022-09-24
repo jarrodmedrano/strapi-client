@@ -13,9 +13,10 @@ export const useAppContext = () => {
   const [cart, setCart] = useState<Cart>({
     items: [],
     total: 0,
+    totalPrice: 0,
   });
   const [user, setUser] = useState<User | undefined>();
-  const { items, total } = cart;
+  const { items, total, totalPrice } = cart;
 
   const addItem = async (item: CartItem) => {
     const foundItem: CartItem | undefined = items.find((i) => i.id === item.id);
@@ -28,6 +29,7 @@ export const useAppContext = () => {
         const result = await localforage.setItem('cart', {
           items: [...items, temp],
           total: total + 1,
+          totalPrice: totalPrice + item.price,
         });
         setCart(result);
       } catch (err) {
@@ -40,6 +42,7 @@ export const useAppContext = () => {
       const newCart = {
         items: [...filtered, temp],
         total: total + 1,
+        totalPrice: totalPrice + item.price,
       };
       try {
         const result = await localforage.setItem('cart', newCart);
@@ -62,9 +65,10 @@ export const useAppContext = () => {
 
     if (foundItem) {
       const filteredCart = items.filter(() => item?.id !== foundItem.id);
-      const newTotal = total - item.price;
+      const newTotal = total - 1;
+      const newTotalPrice = totalPrice - foundItem.price;
 
-      if (foundItem?.quantity > 1) {
+      if (foundItem.quantity > 1) {
         const updatedItem = { ...foundItem };
         updatedItem.quantity -= 1;
 
@@ -72,6 +76,7 @@ export const useAppContext = () => {
           const newCart: Cart = {
             items: [...filteredCart, updatedItem],
             total: newTotal,
+            totalPrice: newTotalPrice,
           };
           const result = await localforage.setItem('cart', newCart);
           setCart(result);
@@ -82,6 +87,7 @@ export const useAppContext = () => {
         const result = await localforage.setItem('cart', {
           items: [...filteredCart],
           total: newTotal,
+          totalPrice: newTotalPrice,
         });
         setCart(result);
       }
@@ -92,6 +98,7 @@ export const useAppContext = () => {
     const defaults = {
       items: [],
       total: 0,
+      totalPrice: 0.0,
     };
     try {
       const result = await localforage.getItem('cart');

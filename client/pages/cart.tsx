@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import {
-  Badge,
   Button,
   Col,
   Grid,
@@ -10,14 +9,12 @@ import {
   Text,
   Tooltip,
 } from '@nextui-org/react';
+import Router from 'next/router';
 import AppContext from '../contexts/context';
 import { Cart, CartItem, CartItemType } from '../schemas/cart';
 import DeleteIcon from '../components/DeleteIcon';
 import IconButton from '../components/IconButton';
 import PlusIcon from '../components/PlusIcon';
-import Router from 'next/router';
-// we can pass cart data in via props method
-// the alternative is using useContext as below
 
 const TableWrapper = styled('div', {
   width: '100%',
@@ -32,22 +29,6 @@ const RenderItems = ({
   removeItem: (item: any) => void;
   addItem: (item: any) => void;
 }) => {
-  const itemMap = cart.items.map((item) => (
-    <Table.Cell key={item.id}>
-      <div>
-        <span id="item-price">&nbsp; ${item.price}</span>
-        <span id="item-name">&nbsp; {item.name}</span>
-      </div>
-      <div>
-        <Button onClick={() => addItem(item)}>+</Button>
-        <Button onClick={() => removeItem(item)}>-</Button>
-        <span style={{ marginLeft: 5 }} id="item-quantity">
-          {item.quantity}x
-        </span>
-      </div>
-    </Table.Cell>
-  ));
-
   const columns = [
     {
       key: 'name',
@@ -115,7 +96,9 @@ const RenderItems = ({
           {(item) => (
             <Table.Row key={item.id}>
               {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                <Table.Cell>
+                  {renderCell(item, columnKey as CartItemType)}
+                </Table.Cell>
               )}
             </Table.Row>
           )}
@@ -143,7 +126,7 @@ const CheckoutItems = ({ cart }: { cart: Cart }) => (
         <Table.Row>
           <Table.Cell>
             <h5 style={{ fontWeight: 100, color: 'gray' }}>Total:</h5>
-            <h3>${cart?.total}</h3>
+            <h3>${cart?.totalPrice}</h3>
           </Table.Cell>
           <Table.Cell>
             <Button onClick={() => Router.push('/checkout')}>Checkout</Button>
@@ -155,10 +138,8 @@ const CheckoutItems = ({ cart }: { cart: Cart }) => (
 );
 
 const CartRoute = () => {
-  //   const isAuthenticated = true;
   const { cart, addItem, removeItem } = useContext(AppContext);
 
-  // return Cart
   return cart ? (
     <>
       <Grid.Container gap={2} justify="center">
@@ -174,22 +155,6 @@ const CartRoute = () => {
         )}
         {cart?.items ? <CheckoutItems cart={cart} /> : <></>}
       </Grid.Container>
-
-      <style jsx>{`
-        #item-price {
-          font-size: 1.3em;
-          color: rgba(97, 97, 97, 1);
-        }
-        #item-quantity {
-          font-size: 0.95em;
-          padding-bottom: 4px;
-          color: rgba(158, 158, 158, 1);
-        }
-        #item-name {
-          font-size: 1.3em;
-          color: rgba(97, 97, 97, 1);
-        }
-      `}</style>
     </>
   ) : (
     <></>

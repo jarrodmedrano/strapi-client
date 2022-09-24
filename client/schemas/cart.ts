@@ -18,6 +18,7 @@ export type CartItem = z.infer<typeof cartItem>;
 const cart = z.object({
   items: z.array(cartItem),
   total: z.number(),
+  totalPrice: z.number(),
 });
 
 export type Cart = z.infer<typeof cart>;
