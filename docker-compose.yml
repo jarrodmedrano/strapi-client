@@ -47,7 +47,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres}
       DATABASE_SSL: ${DATABASE_SSL:-false}
       # AUTHENTICATION_DATABASE: admin
-      CORS_ORIGIN: ${CORS_ORIGIN}
+      # CORS_ORIGIN: ${CORS_ORIGIN}
     ports:
       - '${PORT:-1337}:${PORT:-1337}'
     depends_on:

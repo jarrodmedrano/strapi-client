@@ -8,3 +8,7 @@ run
 
 run 
 `yarn run dev`
+
+build
+
+`docker-compose build`
