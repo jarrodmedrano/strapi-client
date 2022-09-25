@@ -4,3 +4,7 @@
 
 run
 `yarn install`
+
+
+run 
+`yarn run dev`

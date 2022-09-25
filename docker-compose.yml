@@ -2,22 +2,22 @@ version: '3'
 services:
   client:
     # Step 5.1 - Point build step to the client directory
-    build: 'frontend'
+    build: 'client'
     ports:
       # Step 5.2 - Add the port that the client application runs on - (port:port).
       - '3000:3000'
     depends_on:
       - strapi
       - postgres
-  # server:
-  #   # Step 5.3 - Point build step to the server directory
+  server:
+    # Step 5.3 - Point build step to the server directory
 
-  #   build: 'backend'
-  #   ports:
-  #     # Step 5.4 - Add the port that the server application runs on - (port:port).
-  #     - '1337:1337'
-  #   depends_on:
-  #     - postgres
+    build: 'server'
+    ports:
+      # Step 5.4 - Add the port that the server application runs on - (port:port).
+      - '1337:1337'
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
   strapi:
-    build: 'backend'
+    build: 'server'
     container_name: strapirestaurantz
     restart: unless-stopped
     env_file: .env

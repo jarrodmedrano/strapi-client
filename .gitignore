@@ -5,4 +5,4 @@ data
 /**/**/.next/
 .env
 /**/**/.env
-backend/.cache/
+server/.cache/
