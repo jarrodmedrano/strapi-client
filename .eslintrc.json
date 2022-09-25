@@ -6,7 +6,12 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "**/*/*.ts", "**/*/*.tsx"],
-      "extends": ["airbnb-base", "airbnb-typescript", "prettier"]
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript",
+        "prettier",
+        "plugin:@next/next/recommended"
+      ]
     }
   ],
   "parserOptions": {

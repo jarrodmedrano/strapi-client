@@ -13,11 +13,27 @@ import Router from 'next/router';
 import AppContext from '../contexts/context';
 import { Cart, CartItem, CartItemType } from '../schemas/cart';
 import DeleteIcon from '../components/DeleteIcon';
-import IconButton from '../components/IconButton';
 import PlusIcon from '../components/PlusIcon';
 
 const TableWrapper = styled('div', {
   width: '100%',
+});
+
+const IconButton = styled('button', {
+  dflex: 'center',
+  border: 'none',
+  outline: 'none',
+  cursor: 'pointer',
+  padding: '0',
+  margin: '0',
+  bg: 'transparent',
+  transition: '$default',
+  '&:hover': {
+    opacity: '0.8',
+  },
+  '&:active': {
+    opacity: '0.6',
+  },
 });
 
 const RenderItems = ({

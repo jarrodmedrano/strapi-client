@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",
+    "@next/eslint-plugin-next": "^12.3.1",
     "@nextui-org/react": "^1.0.0-beta.10",
     "@strapi/plugin-i18n": "4.3.8",
     "@strapi/plugin-users-permissions": "4.3.8",
@@ -54,7 +55,7 @@
     "lint-staged": "^13.0.3",
     "next-transpile-modules": "3.3.0",
     "prettier": "^2.7.1",
-    "typescript": "*"
+    "typescript": "4.3.2"
   },
   "strapi": {
     "uuid": "56daadf9-3952-4547-9764-9ccdd8212144"
