@@ -9,15 +9,15 @@ services:
     depends_on:
       - strapi
       - postgres
-  server:
-    # Step 5.3 - Point build step to the server directory
+  # server:
+  #   # Step 5.3 - Point build step to the server directory
 
-    build: 'server'
-    ports:
-      # Step 5.4 - Add the port that the server application runs on - (port:port).
-      - '1337:1337'
-    depends_on:
-      - postgres
+  #   build: 'server'
+  #   ports:
+  #     # Step 5.4 - Add the port that the server application runs on - (port:port).
+  #     - '1337:1337'
+  #   depends_on:
+  #     - postgres
 
   postgres:
     image: postgres
