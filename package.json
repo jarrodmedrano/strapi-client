@@ -8,6 +8,9 @@
     "server:dev": "npm run develop --prefix server",
     "client": "npm run start --prefix client",
     "client:dev": "npm run dev --prefix client",
+    "build:client": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server",
+    "build": "concurrently \"npm run build:server\" \"npm run build:client\"",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint --fix"
