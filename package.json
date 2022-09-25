@@ -9,6 +9,7 @@
     "client": "npm run start --prefix client",
     "client:dev": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint --fix"
   },
   "dependencies": {
