@@ -33,7 +33,7 @@ services:
     build: 'server'
     container_name: strapirestaurantz
     restart: unless-stopped
-    env_file: .env
+    # env_file: .env
     environment:
       # Using Variable Subtitution to obtain environment variables. For more : https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution.
       NODE_ENV: ${NODE_ENV:-development}
