@@ -1,5 +1,10 @@
-import { styled } from '@nextui-org/react';
+import { createStitches } from '@stitches/react';
 
+export const { styled } = createStitches({
+  theme: {},
+});
+
+// @ts-ignore
 const IconButton = styled('button', {
   dflex: 'center',
   border: 'none',
