@@ -1,6 +1,6 @@
 export default ({ env }) => ({
-  host: 'https://shark-app-vdb7t.ondigitalocean.app',
-  port: 1337,
+  host: env('HOST', '0.0.0.0'),
+  port: 8080,
   app: {
     keys: env.array('APP_KEYS'),
   },
