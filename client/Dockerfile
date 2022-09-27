@@ -1,5 +1,7 @@
+#!/bin/bash
 # Install dependencies only when needed
-FROM node:16-alpine AS deps
+
+FROM --platform=linux/amd64 node:16-alpine AS deps
 RUN apk add --no-cache python3 py3-pip make g++
 RUN apk add --no-cache libc6-compat
 RUN apk update && apk add bash
