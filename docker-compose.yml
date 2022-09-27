@@ -30,8 +30,7 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
   strapi:
-    build: 'server'
-    container_name: strapirestaurantz
+    image: strapi/strapi
     restart: unless-stopped
     # env_file: .env
     environment:
@@ -48,6 +47,8 @@ services:
       DATABASE_SSL: ${DATABASE_SSL:-false}
       # AUTHENTICATION_DATABASE: admin
       # CORS_ORIGIN: ${CORS_ORIGIN}
+    volumes:
+      - ./app:/srv/app
     ports:
       - '${PORT:-1337}:${PORT:-1337}'
     depends_on:
