@@ -35,7 +35,7 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.1.1",
-    "typescript": "4.3.2",
+    "typescript": "^4.8.4",
     "vercel": "^19.2.0",
     "zod": "^3.19.1",
     "zod-formik-adapter": "^1.1.1"
