@@ -2100,6 +2100,18 @@
     prettier "2.7.1"
     typescript "4.6.2"
 
+"@strapi/typescript-utils@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@strapi/typescript-utils/-/typescript-utils-4.4.1.tgz#df8147cb1a9524b391a03793dea5e30e78b0e12f"
+  integrity sha512-gCfJut1brx2sboG//iw4qjrLOX2lwmuPMgCNsm2/QSRKzyiKXTbrw5Va1khSl3vVkjyBpSSxv3xDz0HwsNkhMg==
+  dependencies:
+    chalk "4.1.2"
+    cli-table3 "0.6.2"
+    fs-extra "10.0.1"
+    lodash "4.17.21"
+    prettier "2.7.1"
+    typescript "4.6.2"
+
 "@strapi/utils@4.3.8":
   version "4.3.8"
   resolved "https://registry.yarnpkg.com/@strapi/utils/-/utils-4.3.8.tgz#10212a2deba66be85aabc3214f9ed5eb945cfed5"
