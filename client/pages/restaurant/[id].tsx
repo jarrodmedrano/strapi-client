@@ -4,14 +4,14 @@ import DishesList from '../../components/Dishes';
 
 const Dishes = () => {
   const router = useRouter();
-  const [rid, setRid] = useState('');
+  const [id, setid] = useState('');
   React.useEffect(() => {
     if (router.isReady) {
-      setRid(router.query.rid as string);
+      setid(router.query.id as string);
     }
   }, [router.isReady]);
 
-  return <DishesList restId={rid} />;
+  return <DishesList restId={id} />;
 };
 
 export default Dishes;

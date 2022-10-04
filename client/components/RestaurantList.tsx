@@ -2,7 +2,7 @@ import { Grid, Card, Text, Row, Button, Link, Col } from '@nextui-org/react';
 import { gql, useQuery } from '@apollo/client';
 import { Restaurant, RestaurantChild } from '../schemas/restaurant';
 
-const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
+// const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
 export default function RestaurantList() {
   const GET_RESTAURANTS = gql`
@@ -71,7 +71,7 @@ export default function RestaurantList() {
             </Card.Header>
             <Card.Body css={{ p: 0 }}>
               <Card.Image
-                src={`${API_URL}${thumbnail.url}`}
+                src={`${thumbnail.url}`}
                 objectFit="cover"
                 width="100%"
                 height={140}
