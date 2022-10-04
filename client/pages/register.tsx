@@ -50,7 +50,7 @@ function Register() {
 
     const req: AxiosRequestConfig = {
       method: 'POST',
-      url: `${API_URL}/api/auth/register`,
+      url: `${API_URL}/api/auth/local/register`,
       data: values,
     };
 
