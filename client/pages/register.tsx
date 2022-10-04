@@ -44,7 +44,7 @@ function Register() {
     email: string;
     password: string;
   }) => {
-    const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
     setError('');
     setLoading(true);
 
