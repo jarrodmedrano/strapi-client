@@ -76,7 +76,7 @@ export default function DishesList({ restId }: { restId: string }) {
       attributes: {
         Dish: { description, id, name, price, thumbnail },
       },
-    } = dish || null;
+    } = dish;
     console.log('thumbn', dish);
     return (
       <Grid xs={4} key={id}>
