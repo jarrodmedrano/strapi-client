@@ -44,12 +44,13 @@ function Register() {
     email: string;
     password: string;
   }) => {
+    const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
     setError('');
     setLoading(true);
 
     const req: AxiosRequestConfig = {
       method: 'POST',
-      url: 'http://localhost:3000/api/auth/register',
+      url: `${API_URL}/api/auth/register`,
       data: values,
     };
 

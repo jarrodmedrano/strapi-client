@@ -8,7 +8,6 @@ import { RestaurantDish } from '../schemas/restaurant';
 // const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
 
 export default function DishesList({ restId }: { restId: string }) {
-  console.log('rest', restId);
   const { addItem } = useContext(AppContext);
 
   const GET_RESTAURANT_DISHES = gql`
@@ -74,10 +73,19 @@ export default function DishesList({ restId }: { restId: string }) {
   const restList = dishes.data.map((dish: RestaurantDish) => {
     const {
       attributes: {
-        Dish: { description, id, name, price, thumbnail },
+        Dish: {
+          description,
+          id,
+          name,
+          price,
+          thumbnail: {
+            data: { attributes },
+          },
+        },
       },
-    } = dish;
-    console.log('thumbn', dish);
+    } = dish || null;
+
+    console.log('thumbnail', dish);
     return (
       <Grid xs={4} key={id}>
         <Card key={dish.id} color="black">
@@ -98,7 +106,7 @@ export default function DishesList({ restId }: { restId: string }) {
           </Card.Header>
           <Card.Body css={{ p: 0 }}>
             <Card.Image
-              src={`${thumbnail?.data?.attributes.url}`}
+              src={`${attributes?.url}`}
               objectFit="cover"
               width="100%"
               height={140}
