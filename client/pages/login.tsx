@@ -42,7 +42,7 @@ function Login() {
   }) => {
     const req: AxiosRequestConfig = {
       method: 'POST',
-      url: `${API_URL}/api/auth/login`,
+      url: `${API_URL}/api/auth/local/login`,
       data: values,
     };
 
