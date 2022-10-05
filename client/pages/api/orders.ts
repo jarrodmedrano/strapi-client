@@ -34,17 +34,20 @@ const handler: (
       method: 'POST',
       url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
       data: {
-       data: {
-        user: '1',
-        chargeId: charge.id,
-        amount: stripeAmount,
-        address,
-        dishes,
-        city,
-        state,
-       }
+        data: {
+          user: '1',
+          chargeId: charge.id,
+          amount: stripeAmount,
+          address,
+          dishes,
+          city,
+          state,
+        },
       },
-      headers,
+      headers: {
+        contentType: 'application/json',
+        ...headers,
+      },
     };
 
     const { data }: AxiosResponse<any> = await axios(orderReq);

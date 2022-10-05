@@ -65,9 +65,7 @@ function Checkout() {
       `https://urchin-app-j3ych.ondigitalocean.app/api/orders`,
       {
         method: 'POST',
-        headers: userToken
-          ? { Authorization: `Bearer ${userToken}` }
-          : undefined,
+        headers: { Authorization: `Bearer ${userToken}` },
         body,
       }
     );
