@@ -33,7 +33,7 @@ const handler: (
   try {
     const orderReq: AxiosRequestConfig = {
       method: 'POST',
-      url: `${API_URL}/api/auth/local`,
+      url: `${API_URL}/api/orders`,
       data: {
         user: '1',
         chargeId: charge.id,
