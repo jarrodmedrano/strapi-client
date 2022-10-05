@@ -61,11 +61,16 @@ function Checkout() {
       token: token.token.id,
     });
 
-    const response = await fetch(`${process.env.APP_URL}/api/orders`, {
-      method: 'POST',
-      headers: userToken ? { Authorization: `Bearer ${userToken}` } : undefined,
-      body,
-    });
+    const response = await fetch(
+      `https://urchin-app-j3ych.ondigitalocean.app/api/orders`,
+      {
+        method: 'POST',
+        headers: userToken
+          ? { Authorization: `Bearer ${userToken}` }
+          : undefined,
+        body,
+      }
+    );
 
     if (!response.ok) {
       setError(response.statusText);
