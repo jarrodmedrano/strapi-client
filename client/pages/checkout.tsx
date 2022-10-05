@@ -26,7 +26,7 @@ const Schema = z.object({
 
 function Checkout() {
   // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
-  const API_URL = process.env.APP_URL || 'http://localhost:1337';
+  const API_URL = process.env.APP_URL;
 
   const [error, setError] = useState('');
   const router = useRouter();

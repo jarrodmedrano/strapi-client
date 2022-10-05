@@ -1,8 +1,10 @@
 import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios';
 import { CartItem } from '../../schemas/cart';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const stripe = require('stripe')(
+  'sk_test_51BnZ5ZAjOkUml8sa3BYRVU0uBgazzZQYTlxl4TV30qoiEXSAkpzqh8feUWyU6Qz4RQSC8rxvtPbTUxsouBqN4jJe00iCWUYmJ2'
+);
 
 const handler: (
   req: {
