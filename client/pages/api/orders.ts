@@ -1,8 +1,4 @@
-import axios, {
-  AxiosRequestConfig,
-  AxiosRequestHeaders,
-  AxiosResponse,
-} from 'axios';
+import { AxiosRequestHeaders, AxiosResponse } from 'axios';
 
 const stripe = require('stripe')(
   'sk_test_51BnZ5ZAjOkUml8sa3BYRVU0uBgazzZQYTlxl4TV30qoiEXSAkpzqh8feUWyU6Qz4RQSC8rxvtPbTUxsouBqN4jJe00iCWUYmJ2'
@@ -16,43 +12,45 @@ const handler: (
   },
   res: AxiosResponse
 ) => Promise<void> = async (req, res) => {
-  const { body, headers } = req;
-
-  const { address, amount, dishes, token, city, state } = JSON.parse(body);
-  const stripeAmount = Math.floor(amount * 100);
-  // charge on stripe
-  const charge = await stripe.charges.create({
-    // Transform cents to dollars.
-    amount: stripeAmount,
-    currency: 'usd',
-    description: `Order ${new Date()}`,
-    source: token,
-  });
+  const { amount, token } = JSON.parse(req.body);
 
   try {
-    const orderReq: AxiosRequestConfig = {
-      method: 'POST',
-      url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
-      data: {
-        data: {
-          user: '1',
-          chargeId: charge.id,
-          amount: stripeAmount,
-          address,
-          dishes,
-          city,
-          state,
-        },
-      },
-      headers: {
-        contentType: 'application/json',
-        ...headers,
-      },
-    };
+    const stripeAmount = Math.floor(amount * 100);
+    // charge on stripe
+    const charge = await stripe.charges.create({
+      // Transform cents to dollars.
+      amount: stripeAmount,
+      currency: 'usd',
+      description: `Order ${new Date()}`,
+      source: token,
+    });
 
-    const { data }: AxiosResponse<any> = await axios(orderReq);
+    // const orderReq: AxiosRequestConfig = {
+    //   method: 'POST',
+    //   url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
+    //   data: {
+    //     data: {
+    //       user: '1',
+    //       chargeId: charge.id,
+    //       amount: stripeAmount,
+    //       address,
+    //       dishes,
+    //       city,
+    //       state,
+    //     },
+    //   },
+    //   headers: {
+    //     contentType: 'application/json',
+    //     ...headers,
+    //   },
+    // };
+
+    // const { data }: AxiosResponse<any> = await axios(orderReq);
     // @ts-ignore
-    return res.status(200).json(data);
+    return res.status(200).json({
+      charge,
+      stripeAmount,
+    });
   } catch (err) {
     // @ts-ignore
     return res.status(400).json({

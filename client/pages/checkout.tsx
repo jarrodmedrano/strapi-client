@@ -16,6 +16,7 @@ import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import Cookies from 'js-cookie';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import AppContext from '../contexts/context';
 
 const Schema = z.object({
@@ -70,9 +71,32 @@ function Checkout() {
       }
     );
 
-    if (!response.ok) {
+    // @ts-ignore
+    const { stripeAmount, charge } = response;
+
+    const req: AxiosRequestConfig = {
+      method: 'POST',
+      url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
+      data: {
+        data: {
+          user: '1',
+          chargeId: charge.id,
+          amount: stripeAmount,
+          address: values.address,
+          dishes: appContext.cart.items,
+          city: values.city,
+          state: values.state,
+        },
+      },
+      headers: { Authorization: `Bearer ${userToken}` },
+    };
+
+    const { data }: AxiosResponse<any> = await axios(req);
+
+    if (!response.ok || !data) {
       setError(response.statusText);
     } else {
+      setError('SUCCESS');
       console.log('SUCCESS');
     }
   };
