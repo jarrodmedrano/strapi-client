@@ -25,27 +25,6 @@ const handler: (
       source: token,
     });
 
-    // const orderReq: AxiosRequestConfig = {
-    //   method: 'POST',
-    //   url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
-    //   data: {
-    //     data: {
-    //       user: '1',
-    //       chargeId: charge.id,
-    //       amount: stripeAmount,
-    //       address,
-    //       dishes,
-    //       city,
-    //       state,
-    //     },
-    //   },
-    //   headers: {
-    //     contentType: 'application/json',
-    //     ...headers,
-    //   },
-    // };
-
-    // const { data }: AxiosResponse<any> = await axios(orderReq);
     // @ts-ignore
     return res.status(200).json({
       charge,

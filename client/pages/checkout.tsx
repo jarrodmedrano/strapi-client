@@ -27,6 +27,7 @@ const Schema = z.object({
 
 function Checkout() {
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);
 
@@ -51,8 +52,6 @@ function Checkout() {
     const token = await stripe.createToken(cardElement);
     const userToken = Cookies.get('token');
 
-    console.log('totals', appContext.cart);
-
     const body = JSON.stringify({
       // @ts-ignore
       amount: appContext.cart.total,
@@ -64,6 +63,8 @@ function Checkout() {
       token: token.token.id,
     });
 
+    setSuccess('');
+
     const response = await fetch(
       `https://urchin-app-j3ych.ondigitalocean.app/api/orders`,
       {
@@ -72,6 +73,12 @@ function Checkout() {
         body,
       }
     );
+
+    console.log('response', response);
+
+    if (response.ok) {
+      setSuccess('Successfully posted stripe transaction');
+    }
 
     // @ts-ignore
     const { stripeAmount, charge } = response;
@@ -97,9 +104,6 @@ function Checkout() {
 
     if (!response.ok || !data) {
       setError(response.statusText);
-    } else {
-      setError('SUCCESS');
-      console.log('SUCCESS');
     }
   };
 
@@ -201,6 +205,7 @@ function Checkout() {
                     {isSubmitting ? 'Submitting... ' : 'Submit'}
                   </Button>
                 </>
+                {success}
                 {error}
               </form>
             )}
