@@ -34,6 +34,8 @@ const handler: (
     source: token,
   });
 
+  console.log('failed charge?', charge);
+
   try {
     const { data } = await axios.post(
       `${API_URL}/orders`,
@@ -48,6 +50,7 @@ const handler: (
       }),
       headers
     );
+    console.log('failed data?', data);
 
     // @ts-ignore
     return res.status(200).json(data);
