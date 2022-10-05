@@ -25,7 +25,9 @@ const Schema = z.object({
 });
 
 function Checkout() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+  // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+  const API_URL = 'http://localhost:1337';
+
   const [error, setError] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);
@@ -59,7 +61,7 @@ function Checkout() {
       token: token?.token?.id,
     });
 
-    const response = await fetch(`${API_URL}/orders`, {
+    const response = await fetch(`${API_URL}/api/orders`, {
       method: 'POST',
       headers: userToken ? { Authorization: `Bearer ${userToken}` } : undefined,
       body,

@@ -22,7 +22,7 @@ const handler: (
 
   try {
     const { data } = await axios.post(
-      `${API_URL}/orders`,
+      `${API_URL}/api/orders`,
       JSON.stringify(body),
       headers
     );
