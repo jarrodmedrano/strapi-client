@@ -4,7 +4,6 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const stripe = require('stripe')(
   'sk_test_51BnZ5ZAjOkUml8sa3BYRVU0uBgazzZQYTlxl4TV30qoiEXSAkpzqh8feUWyU6Qz4RQSC8rxvtPbTUxsouBqN4jJe00iCWUYmJ2'
 );
@@ -33,7 +32,7 @@ const handler: (
   try {
     const orderReq: AxiosRequestConfig = {
       method: 'POST',
-      url: `${API_URL}/api/orders`,
+      url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
       data: {
         user: '1',
         chargeId: charge.id,
