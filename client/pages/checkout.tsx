@@ -51,9 +51,11 @@ function Checkout() {
     const token = await stripe.createToken(cardElement);
     const userToken = Cookies.get('token');
 
+    console.log('totals', appContext.cart);
+
     const body = JSON.stringify({
       // @ts-ignore
-      amount: Number(`${Math.round(`${appContext.cart.total}e2`)}e-2`),
+      amount: appContext.cart.total,
       dishes: appContext.cart.items,
       address: values.address,
       city: values.city,
