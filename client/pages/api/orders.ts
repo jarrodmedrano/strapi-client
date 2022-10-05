@@ -34,6 +34,7 @@ const handler: (
       method: 'POST',
       url: `https://plankton-app-2awrj.ondigitalocean.app/api/orders`,
       data: {
+       data: {
         user: '1',
         chargeId: charge.id,
         amount: stripeAmount,
@@ -41,6 +42,7 @@ const handler: (
         dishes,
         city,
         state,
+       }
       },
       headers,
     };
