@@ -2,24 +2,27 @@
 
 import React, { useEffect, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { CardElement, Elements } from '@stripe/react-stripe-js';
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Container,
   Row,
   Col,
   Button,
-  Input,
   Spacer,
   Text,
+  Input,
 } from '@nextui-org/react';
 import { Formik } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import AppContext from '../contexts/context';
-import { User } from './api/auth/login';
 
 const Schema = z.object({
   address: z.string(),
@@ -40,24 +43,39 @@ function Checkout() {
     }
   }, []);
 
+  const stripe = useStripe();
+  const elements = useElements();
+
   const handleCheckout = async (values: {
     address: string;
     city: string;
     state: string;
   }) => {
-    const req: AxiosRequestConfig = {
-      method: 'POST',
-      url: `${API_URL}/api/auth/local`,
-      data: values,
-    };
+    // // Use elements.getElement to get a reference to the mounted Element.
+    const cardElement = elements?.getElement(CardElement);
+    const token = cardElement ? await stripe?.createToken(cardElement) : null;
+    const userToken = Cookies.get('token');
 
-    try {
-      const { data: user, data }: AxiosResponse<User> = await axios(req);
-      Cookie.set('token', data.jwt);
-      appContext.setUser(user);
-      router.push('/');
-    } catch (err) {
-      setError('Error logging in');
+    const body = JSON.stringify({
+      // @ts-ignore
+      amount: Number(`${Math.round(`${appContext.cart.total}e2`)}e-2`),
+      dishes: appContext.cart.items,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      token: token?.token?.id,
+    });
+
+    const response = await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: userToken ? { Authorization: `Bearer ${userToken}` } : undefined,
+      body,
+    });
+
+    if (!response.ok) {
+      setError(response.statusText);
+    } else {
+      console.log('SUCCESS');
     }
   };
 
