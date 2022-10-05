@@ -25,7 +25,7 @@ const Schema = z.object({
 });
 
 function Login() {
-  const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
   const [error, setError] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);

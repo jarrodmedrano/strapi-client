@@ -28,7 +28,7 @@ const Schema = z.object({
 });
 
 function Checkout() {
-  const API_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:1337';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
   const stripePromise = loadStripe('pk_test_sxCvm0SIbCpjRfffcuCf2CFH');
   const [error, setError] = useState('');
   const router = useRouter();
