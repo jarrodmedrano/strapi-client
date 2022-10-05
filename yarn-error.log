@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js add @typings/stripe
+  /Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js add stripe
 
 PATH: 
   /Users/jarrodmedrano/.pyenv/shims:/Users/jarrodmedrano/.bun/bin:/Users/jarrodmedrano/.rbenv/shims:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/bin:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/jarrodmedrano/.cargo/bin:/Users/jarrodmedrano/flutter/bin:/Users/jarrodmedrano/.local/bin/:/Users/jarrodmedrano/.go/bin:/usr/local/opt/go/libexec/bin:/flutter/bin:/opt/homebrew/bin:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/jarrodmedrano/.cargo/bin:/Users/jarrodmedrano/flutter/bin:/Users/jarrodmedrano/.local/bin/:/Users/jarrodmedrano/.go/bin:/usr/local/opt/go/libexec/bin:/Users/jarrodmedrano/Library/Android/sdk/platform-tools:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/bin:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/jarrodmedrano/.cargo/bin:/Users/jarrodmedrano/flutter/bin:/Users/jarrodmedrano/.local/bin/:/Users/jarrodmedrano/.go/bin:/usr/local/opt/go/libexec/bin:/flutter/bin:/opt/homebrew/bin:/Users/jarrodmedrano/.jenv/shims:/Users/jarrodmedrano/.jenv/bin:/Users/jarrodmedrano/.nvm/versions/node/v14.19.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/jarrodmedrano/.cargo/bin:/Users/jarrodmedrano/flutter/bin:/Users/jarrodmedrano/.local/bin/:/Users/jarrodmedrano/.go/bin:/usr/local/opt/go/libexec/bin:/Users/jarrodmedrano/Library/Android/sdk/platform-tools:/opt/homebrew/Cellar/jetty/9.4.43.v20210629
@@ -14,17 +14,12 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.com/@typings%2fstripe: Not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:66145:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:140890:22)
-      at Request.emit (events.js:400:28)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:141862:10)
-      at Request.emit (events.js:400:28)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:141784:12)
-      at Object.onceWrapper (events.js:519:28)
-      at IncomingMessage.emit (events.js:412:35)
-      at endReadableNT (internal/streams/readable.js:1333:12)
-      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+  SyntaxError: /Users/jarrodmedrano/Library/Caches/Yarn/v6/npm-date-fns-2.29.2-0d4b3d0f3dff0f920820a070920f0d9662c51931-integrity/node_modules/date-fns/.yarn-metadata.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:321:13
 
 npm manifest: 
   {
