@@ -2,13 +2,7 @@
 
 import React, { useEffect, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import {
-  CardElement,
-  Elements,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import {
   Container,
   Row,
@@ -32,7 +26,6 @@ const Schema = z.object({
 
 function Checkout() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
-  const stripePromise = loadStripe('pk_test_sxCvm0SIbCpjRfffcuCf2CFH');
   const [error, setError] = useState('');
   const router = useRouter();
   const appContext = useContext(AppContext);
@@ -94,104 +87,96 @@ function Checkout() {
   };
 
   return (
-    <Elements stripe={stripePromise}>
-      <Container>
-        <Row>
-          <Col>
-            <Text h1>Checkout</Text>
+    <Container>
+      <Row>
+        <Col>
+          <Text h1>Checkout</Text>
 
-            <Formik
-              initialValues={{ address: '', city: '', state: '' }}
-              onSubmit={handleCheckout}
-              validationSchema={toFormikValidationSchema(Schema)}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <>
-                    <Input
-                      label="Address"
-                      bordered
-                      clearable
-                      name="address"
-                      style={{ height: 50, fontSize: '1.2em' }}
-                      onChange={handleChange}
-                      value={values.address}
-                      color={
-                        errors.address && touched.address ? 'error' : 'default'
-                      }
-                      helperText={
-                        errors.address && touched.address
-                          ? errors?.address?.toString()
-                          : ''
-                      }
-                    />
-                    <Spacer y={1.6} />
-                    <Input
-                      label="City"
-                      bordered
-                      clearable
-                      name="city"
-                      style={{ height: 50, fontSize: '1.2em' }}
-                      onChange={handleChange}
-                      value={values.city}
-                      color={errors.city && touched.city ? 'error' : 'default'}
-                      helperText={
-                        errors.city && touched.city
-                          ? errors?.city?.toString()
-                          : ''
-                      }
-                    />
-                    <Spacer y={1.6} />
-                    <Input
-                      label="State"
-                      bordered
-                      clearable
-                      name="state"
-                      style={{ height: 50, fontSize: '1.2em' }}
-                      onChange={handleChange}
-                      value={values.state}
-                      color={
-                        errors.state && touched.state ? 'error' : 'default'
-                      }
-                      helperText={
-                        errors.state && touched.state
-                          ? errors?.state?.toString()
-                          : ''
-                      }
-                    />
-                    <Spacer y={1.6} />
+          <Formik
+            initialValues={{ address: '', city: '', state: '' }}
+            onSubmit={handleCheckout}
+            validationSchema={toFormikValidationSchema(Schema)}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <>
+                  <Input
+                    label="Address"
+                    bordered
+                    clearable
+                    name="address"
+                    style={{ height: 50, fontSize: '1.2em' }}
+                    onChange={handleChange}
+                    value={values.address}
+                    color={
+                      errors.address && touched.address ? 'error' : 'default'
+                    }
+                    helperText={
+                      errors.address && touched.address
+                        ? errors?.address?.toString()
+                        : ''
+                    }
+                  />
+                  <Spacer y={1.6} />
+                  <Input
+                    label="City"
+                    bordered
+                    clearable
+                    name="city"
+                    style={{ height: 50, fontSize: '1.2em' }}
+                    onChange={handleChange}
+                    value={values.city}
+                    color={errors.city && touched.city ? 'error' : 'default'}
+                    helperText={
+                      errors.city && touched.city
+                        ? errors?.city?.toString()
+                        : ''
+                    }
+                  />
+                  <Spacer y={1.6} />
+                  <Input
+                    label="State"
+                    bordered
+                    clearable
+                    name="state"
+                    style={{ height: 50, fontSize: '1.2em' }}
+                    onChange={handleChange}
+                    value={values.state}
+                    color={errors.state && touched.state ? 'error' : 'default'}
+                    helperText={
+                      errors.state && touched.state
+                        ? errors?.state?.toString()
+                        : ''
+                    }
+                  />
+                  <Spacer y={1.6} />
 
-                    <CardElement
-                      options={{
-                        style: { base: inputStyle },
-                      }}
-                    />
+                  <CardElement
+                    options={{
+                      style: { base: inputStyle },
+                    }}
+                  />
 
-                    <Spacer y={1.6} />
+                  <Spacer y={1.6} />
 
-                    <Button
-                      color="primary"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? 'Submitting... ' : 'Submit'}
-                    </Button>
-                  </>
-                  {error}
-                </form>
-              )}
-            </Formik>
-          </Col>
-        </Row>
-      </Container>
-    </Elements>
+                  <Button color="primary" type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting... ' : 'Submit'}
+                  </Button>
+                </>
+                {error}
+              </form>
+            )}
+          </Formik>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

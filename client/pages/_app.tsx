@@ -11,6 +11,8 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { Session } from 'next-auth';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { AppContextProvider } from '../contexts/context';
 import { Header } from '../components/Header';
 
@@ -39,6 +41,7 @@ function MyApp({
   const link = new HttpLink({ uri: `${API_URL}/graphql` });
   const cache = new InMemoryCache();
   const client = new ApolloClient({ link, cache });
+  const stripePromise = loadStripe('pk_test_sxCvm0SIbCpjRfffcuCf2CFH');
 
   return (
     <SessionProvider session={session}>
@@ -57,7 +60,9 @@ function MyApp({
                 <Header />
                 <Grid.Container gap={2} justify="center">
                   <Grid xs={12} md={6}>
-                    <Component {...pageProps} />
+                    <Elements stripe={stripePromise}>
+                      <Component {...pageProps} />
+                    </Elements>
                   </Grid>
                 </Grid.Container>
               </div>
