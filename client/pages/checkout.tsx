@@ -26,7 +26,7 @@ const Schema = z.object({
 
 function Checkout() {
   // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
-  const API_URL = process.env.APP_URL;
+  const API_URL = process.env.APP_URL || 'http://localhost:3000';
 
   const [error, setError] = useState('');
   const router = useRouter();
@@ -47,8 +47,10 @@ function Checkout() {
     state: string;
   }) => {
     // // Use elements.getElement to get a reference to the mounted Element.
-    const cardElement = elements?.getElement(CardElement);
-    const token = cardElement ? await stripe?.createToken(cardElement) : null;
+    // @ts-ignore
+    const cardElement = elements.getElement(CardElement);
+    // @ts-ignore
+    const token = await stripe.createToken(cardElement);
     const userToken = Cookies.get('token');
 
     const body = JSON.stringify({
@@ -58,7 +60,8 @@ function Checkout() {
       address: values.address,
       city: values.city,
       state: values.state,
-      token: token?.token?.id,
+      // @ts-ignore
+      token: token.token.id,
     });
 
     const response = await fetch(`${API_URL}/api/orders`, {

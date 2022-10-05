@@ -1,5 +1,8 @@
-import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios';
-import { CartItem } from '../../schemas/cart';
+import axios, {
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosResponse,
+} from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const stripe = require('stripe')(
@@ -8,14 +11,7 @@ const stripe = require('stripe')(
 
 const handler: (
   req: {
-    body: {
-      amount: number;
-      dishes: CartItem[];
-      address: string;
-      city: string;
-      state: string;
-      token: string;
-    };
+    body: string;
     method: string;
     headers: AxiosRequestHeaders;
   },
@@ -23,9 +19,7 @@ const handler: (
 ) => Promise<void> = async (req, res) => {
   const { body, headers } = req;
 
-  const { address, amount, dishes, token, city, state } = JSON.parse(
-    JSON.stringify(body)
-  );
+  const { address, amount, dishes, token, city, state } = JSON.parse(body);
   const stripeAmount = Math.floor(amount * 100);
   // charge on stripe
   const charge = await stripe.charges.create({
@@ -36,24 +30,23 @@ const handler: (
     source: token,
   });
 
-  console.log('failed charge?', charge);
-
   try {
-    const { data } = await axios.post(
-      `${API_URL}/orders`,
-      JSON.stringify({
-        user: 1,
-        charge_id: charge.id,
+    const orderReq: AxiosRequestConfig = {
+      method: 'POST',
+      url: `${API_URL}/api/auth/local`,
+      data: {
+        user: '1',
+        chargeId: charge.id,
         amount: stripeAmount,
         address,
         dishes,
         city,
         state,
-      }),
-      headers
-    );
-    console.log('failed data?', data);
+      },
+      headers,
+    };
 
+    const { data }: AxiosResponse<any> = await axios(orderReq);
     // @ts-ignore
     return res.status(200).json(data);
   } catch (err) {
