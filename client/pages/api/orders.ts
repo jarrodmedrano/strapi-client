@@ -2,6 +2,7 @@ import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios';
 import { CartItem } from '../../schemas/cart';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const handler: (
   req: {
@@ -20,10 +21,31 @@ const handler: (
 ) => Promise<void> = async (req, res) => {
   const { body, headers } = req;
 
+  const { address, amount, dishes, token, city, state } = JSON.parse(
+    JSON.stringify(body)
+  );
+  const stripeAmount = Math.floor(amount * 100);
+  // charge on stripe
+  const charge = await stripe.charges.create({
+    // Transform cents to dollars.
+    amount: stripeAmount,
+    currency: 'usd',
+    description: `Order ${new Date()}`,
+    source: token,
+  });
+
   try {
     const { data } = await axios.post(
-      `${API_URL}/api/orders`,
-      JSON.stringify(body),
+      `${API_URL}/orders`,
+      JSON.stringify({
+        user: 1,
+        charge_id: charge.id,
+        amount: stripeAmount,
+        address,
+        dishes,
+        city,
+        state,
+      }),
       headers
     );
 
